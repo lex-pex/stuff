@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
+use App\Item;
 use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,10 +17,10 @@ class GuestController extends Controller
      */
     public function index()
     {
-        $articles = Article::orderBy('created_at', 'desc')->paginate(6);
+        $items = Item::orderBy('created_at', 'desc')->paginate(6);
         $categories = Category::orderBy('created_at', 'desc')->get();
         return view('index', [
-            'articles' => $articles,
+            'items' => $items,
             'categories' => $categories
         ]);
     }
@@ -33,10 +33,10 @@ class GuestController extends Controller
     public function category($id)
     {
         $category = Category::findOrFail($id);
-        $articles = $category->articles()->paginate(6);
+        $items = $category->items()->paginate(6);
         $categories = Category::orderBy('created_at', 'desc')->get();
         return view('index', [
-            'articles' => $articles,
+            'items' => $items,
             'categories' => $categories,
             'current_category' => $category
         ]);
@@ -50,7 +50,7 @@ class GuestController extends Controller
      */
     public function show($id)
     {
-        $article = Article::findOrFail($id);
+        $article = Item::findOrFail($id);
         return view('show', [
             'edit_access' => Gate::allows('edit_article'),
             'article' => $article

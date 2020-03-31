@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Item;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $items = Item::orderBy('created_at', 'desc')->take(7)->get();
+        $user = Auth::user();
+        return view('home', [
+            'user_name' => $user->name,
+            'user_role' => $user->roles()->first()->role,
+            'items' => $items
+        ]);
+        // return view('home');
     }
 }

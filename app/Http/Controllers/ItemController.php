@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\UploadedFile;
 
-class ItemControllerController extends Controller
+class ItemController extends Controller
 {
     /**
      * @var string Default path for storing image-files

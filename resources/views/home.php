@@ -41,20 +41,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($items as $item)
+                        @foreach($articles as $article)
                         <tr>
-                            <th scope="row">{{ $item->id }}</th>
-                            <td><img src="{{ $item->image ? $item->image : '/img/empty.jpg' }}" width="100%"></td>
+                            <th scope="row">{{ $article->id }}</th>
+                            <td><img src="{{ $article->image ? $article->image : '/img/empty.jpg' }}" width="100%"></td>
                             <td>
-                                <strong>{{ $item->title }}</strong>
+                                <strong>{{ $article->title }}</strong>
                                 <br/>
-                                {{ $item->text }}
+                                {{ $article->text }}
                             </td>
                             <th scope="row" width="20%">
                                 <small>
-                                    {{ $item->created_at ? date_format($item->created_at, 'd/m/y H:i') : 'Date unknown' }}
+                                    {{ $article->created_at ? date_format($article->created_at, 'd/m/y H:i') : 'Date unknown' }}
                                     <br/>
-                                    {{ $item->updated_at ? date_format($item->updated_at, 'd/m/y H:i') : 'Have no updated' }}
+                                    {{ $article->updated_at ? date_format($article->updated_at, 'd/m/y H:i') : 'Have no updated' }}
                                 </small>
                             </th>
                         </tr>
