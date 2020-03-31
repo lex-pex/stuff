@@ -11,10 +11,32 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'GuestController@index')->name('items_index');
+
+Route::get('/category/{id}', 'GuestController@category')->name('category_index');
+
+Route::get('/item/{id}', 'GuestController@show')->name('item_show');
+
+Route::get('/item/{id}/edit', 'GuestController@edit')->name('item_edit');
+
+Route::get('/home', 'HomeController@index')->middleware('moderator')->name('home');
+
+Route::get('/profile', 'ProfileController@profile')->middleware('auth')->name('profile');
+
+Route::resource('items', 'ArticleController')->except(['index', 'show']);
+
+Route::middleware('admin')->resource('categories', 'CategoryController')->except(['show']);
+
+Route::get('error_page', function(){ return view('error'); })->name('error_page');
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Route::get('/', function () { return view('welcome'); });
+Route::get('/home', 'HomeController@index')->name('home');
+*/
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+
