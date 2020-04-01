@@ -17,7 +17,7 @@ Route::get('/category/{id}', 'GuestController@category')->name('category_index')
 
 Route::get('/item/{id}', 'GuestController@show')->name('item_show');
 
-//Route::get('/item/{id}/edit', 'GuestController@edit')->name('item_edit');
+Route::get('/item/{id}/edit', 'GuestController@edit')->name('item_edit');
 
 Route::get('/home', 'HomeController@index')->middleware('moderator')->name('home');
 

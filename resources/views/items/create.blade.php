@@ -7,7 +7,7 @@
                     <div class="card-header">{{ $action }}</div>
                     <div class="card-body">
                         <div class="text-danger mr-auto"><small>{{ session('status') }}</small></div>
-                        <form method="POST" action="{{ route('articles.store') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group row">
                                 <label for="title" class="col-md-4 col-form-label text-md-right">Title:</label>

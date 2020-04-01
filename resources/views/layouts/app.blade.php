@@ -44,7 +44,7 @@
                                 @endcan
                                     {{-- route needed --}}
                                 @can('create_item')
-                                <a class="dropdown-item" href="{{ route('home') }}"> Add Item </a>
+                                <a class="dropdown-item" href="{{ route('items.create') }}"> Add Item </a>
                                 @endcan
                                     {{-- route needed --}}
                                 @can('categories')
