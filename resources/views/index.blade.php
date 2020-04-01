@@ -2,37 +2,6 @@
 @section('content')
 <div class="container-fluid">
 
-    <!-- jumbotron
-    <div class="jumbotron">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h1 class="display-5"> {{ isset($current_category) ? $current_category->name : config('app.name') }} </h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-8">
-                            <p>
-                                According to Einstein, gravity is not a force – it is a property of spacetime itself.
-                                So far, all attempts to treat gravity as another quantum force equal in importance to
-                                electromagnetism and the nuclear forces have failed, and loop quantum gravity is an
-                                attempt to develop a quantum theory of gravity based directly on Einstein's geometric
-                                formulation rather than the treatment of gravity as a force.
-                            </p>
-                        </div>
-                        <div class="col-4">
-                            @can('create_item')
-                                <a href="{{ route('items.create') }}" class="btn btn-outline-dark">Add New Article</a>
-                            @endcan
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> jumbotron -->
-
     <div class="px-0 mx-0">
         <div class="row">
             <div class="col-md-2 col-sm-12 bg-white py-3 border">
@@ -77,7 +46,7 @@
             </div>
         </div>
         <hr/>
-    </div> <!-- /container -->
+    </div>
 
 </div>
 @endsection

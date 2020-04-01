@@ -26,7 +26,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-
         Gate::define('categories', function(User $user) {
             if(!$user) return false;
             foreach ($user->roles as $role)
@@ -58,6 +57,5 @@ class AuthServiceProvider extends ServiceProvider
                     return true;
             return false;
         });
-
     }
 }

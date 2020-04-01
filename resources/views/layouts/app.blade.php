@@ -42,6 +42,15 @@
                                 @can('edit_item')
                                 <a class="dropdown-item" href="{{ route('home') }}"> Dashboard </a>
                                 @endcan
+                                    {{-- route needed --}}
+                                @can('create_item')
+                                <a class="dropdown-item" href="{{ route('home') }}"> Add Item </a>
+                                @endcan
+                                    {{-- route needed --}}
+                                @can('categories')
+                                    <a class="dropdown-item" href="{{ route('home') }}"> Add Category </a>
+                                @endcan
+
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
