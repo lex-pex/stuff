@@ -12,26 +12,30 @@
                 @endforeach
             </div>
             <div class="col-md-10 col-sm-12">
-                <div class="row">
+                <div class="row no-gutters">
                     @foreach($items as $item)
-                        <div class="col-md-4 p-4">
-                            <h4> {{ $item->title }} </h4>
-                            <div class="row">
-                                <div class="col-6">
-                                    <img src="{{ $item->image ? $item->image : '/img/empty.jpg' }}" width="100%" />
+                        <div class="col-md-4 p-1">
+                            <a class="text-black-50 text-decoration-none" href="{{ route('item_show', $item->id) }}">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4> {{ $item->title }} </h4>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <img src="{{ $item->image ? $item->image : '/img/empty.jpg' }}" width="100%" />
+                                            </div>
+                                            <div class="col-6">
+                                                {{ mb_strimwidth($item->text, 0, 90, '....') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-right p-0">
+                                        <span class="text-danger">Category:</span>
+                                        <a class="btn btn-link" href="{{ route('category_index', $item->category_id) }}">{{ $item->category->name }}</a>
+                                    </div>
                                 </div>
-                                <div class="col-6">
-                                    {{ mb_strimwidth($item->text, 0, 50, '...') }}
-                                    <a class="btn btn-link" href="{{ route('item_show', $item->id) }}">Read &raquo;</a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 text-right border-bottom">
-                                    <hr/>
-                                    <span class="text-danger">Category:</span>
-                                    <a class="btn btn-outline-dark m-2" href="{{ route('category_index', $item->category_id) }}">{{ $item->category->name }}</a>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                     @endforeach
                 </div>

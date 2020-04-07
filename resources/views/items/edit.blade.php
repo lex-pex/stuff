@@ -7,13 +7,13 @@
                     <div class="card-header">{{ $action }}</div>
                     <div class="card-body">
                         <div class="text-danger mr-auto"><small>{{ session('status') }}</small></div>
-                        <form method="POST" action="{{ route('items.update', $article) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('items.update', $item) }}" enctype="multipart/form-data">
                             @method('put')
                             @csrf
                             <div class="form-group row">
                                 <label for="title" class="col-md-4 col-form-label text-md-right">Title:</label>
                                 <div class="col-md-6">
-                                    <input id="title" type="text" name="title" value="{{ old('title') ? old('title') : $article->title }}"
+                                    <input id="title" type="text" name="title" value="{{ old('title') ? old('title') : $item->title }}"
                                             class="form-control @error('title') is-invalid @enderror" autocomplete="title" autofocus>
                                     @error('title')
                                     <span class="invalid-feedback" role="alert">
@@ -27,7 +27,7 @@
                                 <label for="text" class="col-md-4 col-form-label text-md-right">Text:</label>
                                 <div class="col-md-6">
                                     <textarea id="text" rows="10" type="text" name="text" autocomplete="text"
-                                            class="form-control @error('text') is-invalid @enderror">{{ old('title') ? old('title') : $article->text }}</textarea>
+                                            class="form-control @error('text') is-invalid @enderror">{{ old('title') ? old('title') : $item->text }}</textarea>
                                     @error('text')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -35,13 +35,13 @@
                                     @enderror
                                 </div>
                             </div>
-                            @can('create_article')
+                            @can('create_item')
                             <div class="form-group row bg-warning">
                                 <label for="text" class="col-md-4 col-form-label text-md-right">Author (Admin Option):</label>
                                 <div class="col-md-6">
                                     <select class="form-control custom-select" name="user_id">
                                         @foreach($users as $u)
-                                        <option {{ $u->id == $article->user_id ? 'selected' : '' }}
+                                        <option {{ $u->id == $item->user_id ? 'selected' : '' }}
                                                 value="{{ $u->id }}">{{ $u->name . ' ('. ($u->roles()->first() ? $u->roles()->first()->role : 'no role') .')' }}</option>
                                         @endforeach
                                     </select>
@@ -53,7 +53,7 @@
                                 <div class="col-md-6">
                                     <select class="form-control custom-select" name="category_id">
                                         @foreach($categories as $c)
-                                            <option {{ $c->id == $article->category_id ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
+                                            <option {{ $c->id == $item->category_id ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -61,7 +61,7 @@
 
                             <div class="form-group row justify-content-center">
                                 <div class="col-md-6 offset-md-2">
-                                    <img src="{{ $article->image ? $article->image : '/img/empty.jpg' }}" width="100%" />
+                                    <img src="{{ $item->image ? $item->image : '/img/empty.jpg' }}" width="100%" />
                                 </div>
                             </div>
 

@@ -34,7 +34,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            @can('create_article')
+                            @can('create_item')
                             <div class="form-group row bg-warning">
                                 <label for="text" class="col-md-4 col-form-label text-md-right">Author (Admin Option):</label>
                                 <div class="col-md-6">
