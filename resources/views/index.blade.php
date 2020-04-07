@@ -15,8 +15,8 @@
                 <div class="row no-gutters">
                     @foreach($items as $item)
                         <div class="col-md-4 p-1">
-                            <a class="text-black-50 text-decoration-none" href="{{ route('item_show', $item->id) }}">
-                                <div class="card">
+                            <div class="card">
+                                <a class="text-black-50 text-decoration-none" href="{{ route('item_show', $item->id) }}">
                                     <div class="card-header">
                                         <h4> {{ $item->title }} </h4>
                                     </div>
@@ -30,12 +30,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer text-right p-0">
-                                        <span class="text-danger">Category:</span>
-                                        <a class="btn btn-link" href="{{ route('category_index', $item->category_id) }}">{{ $item->category->name }}</a>
-                                    </div>
+                                </a>
+                                <div class="card-footer text-right p-0">
+                                    <span class="text-danger">Category:</span>
+                                    <a class="btn btn-link" href="{{ route('category_index', $item->category_id) }}">{{ $item->category->name }}</a>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                     @endforeach
                 </div>
