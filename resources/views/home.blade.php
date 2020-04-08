@@ -18,7 +18,6 @@
             </a>
         </div>
 
-
         <div class="col-md-8 justify-content-center">
             <div class="card">
                 <div class="card-header">Dashboard</div>
@@ -44,37 +43,6 @@
                             ....
                         </div>
                     </div>
-
-                    <!-- table class="table">
-                        <thead>
-                        <tr class="text-center">
-                            <th scope="col">id</th>
-                            <th scope="col">Image</th>
-                            <th scope="col" width="50%"><strong>Title</strong> | Text</th>
-                            <th scope="col"> <small> Created <br/> Updated </small> </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {{--@foreach($items as $item)--}}
-                        <tr>
-                            {{--<th scope="row">{{ $item->id }}</th>--}}
-                            {{--<td><img src="{{ $item->image ? $item->image : '/img/empty.jpg' }}" width="100%"></td>--}}
-                            <td>
-                                {{--<strong>{{ $item->title }}</strong>--}}
-                                <br/>
-                                {{--{{ $item->text }}--}}
-                            </td>
-                            <th scope="row" width="20%">
-                                <small>
-{{--                                    {{ $item->created_at ? date_format($item->created_at, 'd/m/y H:i') : 'Date unknown' }}--}}
-                                    <br/>
-{{--                                    {{ $item->updated_at ? date_format($item->updated_at, 'd/m/y H:i') : 'Have no updated' }}--}}
-                                </small>
-                            </th>
-                        </tr>
-                        {{--@endforeach--}}
-                        </tbody>
-                    </table -->
 
                 </div>
             </div>
