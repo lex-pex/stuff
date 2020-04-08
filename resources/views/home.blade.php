@@ -1,8 +1,25 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="container-fluid bg-info">
+
+    <div class="row">
+
+        <div class="col-md-2 col-sm-12 bg-white py-3 border">
+            <a href="/home" class="page-link mb-3 {{ isset($current_tab) ? '' : 'bg-info text-light' }}"> Main </a>
+            @can('categories')
+                <a href="{{ route('categories.index') }}"
+                   class="page-link mb-3 {{ isset($current_tab) ? ($current_tab == 'categories') ? 'bg-info text-light' : '' : '' }}">
+                    Categories
+                </a>
+            @endcan
+            <a href="/home/users"
+               class="page-link mb-3 {{ isset($current_tab) ? ($current_tab == 'users') ? 'bg-info text-light' : '' : '' }}">
+                Users
+            </a>
+        </div>
+
+
+        <div class="col-md-8 justify-content-center">
             <div class="card">
                 <div class="card-header">Dashboard</div>
                 <div class="card-body">
@@ -21,17 +38,14 @@
 
                     <div class="row p-3">
                         <div class="col-6 text-left">
-                            <h5> Articles: </h5>
+                            ....
                         </div>
                         <div class="col-6 text-right">
-                            @can('categories')
-                            Admin Option:
-                            <a href="{{ route('categories.index') }}" class="btn btn-outline-dark mx-2"> Manage Categories </a>
-                            @endcan
+                            ....
                         </div>
                     </div>
 
-                    <table class="table">
+                    <!-- table class="table">
                         <thead>
                         <tr class="text-center">
                             <th scope="col">id</th>
@@ -41,26 +55,26 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($items as $item)
+                        {{--@foreach($items as $item)--}}
                         <tr>
-                            <th scope="row">{{ $item->id }}</th>
-                            <td><img src="{{ $item->image ? $item->image : '/img/empty.jpg' }}" width="100%"></td>
+                            {{--<th scope="row">{{ $item->id }}</th>--}}
+                            {{--<td><img src="{{ $item->image ? $item->image : '/img/empty.jpg' }}" width="100%"></td>--}}
                             <td>
-                                <strong>{{ $item->title }}</strong>
+                                {{--<strong>{{ $item->title }}</strong>--}}
                                 <br/>
-                                {{ $item->text }}
+                                {{--{{ $item->text }}--}}
                             </td>
                             <th scope="row" width="20%">
                                 <small>
-                                    {{ $item->created_at ? date_format($item->created_at, 'd/m/y H:i') : 'Date unknown' }}
+{{--                                    {{ $item->created_at ? date_format($item->created_at, 'd/m/y H:i') : 'Date unknown' }}--}}
                                     <br/>
-                                    {{ $item->updated_at ? date_format($item->updated_at, 'd/m/y H:i') : 'Have no updated' }}
+{{--                                    {{ $item->updated_at ? date_format($item->updated_at, 'd/m/y H:i') : 'Have no updated' }}--}}
                                 </small>
                             </th>
                         </tr>
-                        @endforeach
+                        {{--@endforeach--}}
                         </tbody>
-                    </table>
+                    </table -->
 
                 </div>
             </div>
