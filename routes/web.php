@@ -27,7 +27,9 @@ Route::resource('items', 'ItemController')->except(['index', 'show']);
 
 Route::middleware('admin')->resource('categories', 'CategoryController')->except(['show']);
 
-Route::get('error_page', function(){ return view('error'); })->name('error_page');
+Route::middleware('admin')->resource('users', 'ProfileController');
+
+Route::get('error_page', function() { return view('error'); })->name('error_page');
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Route::get('/', function () { return view('welcome'); });

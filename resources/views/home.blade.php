@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-fluid bg-info">
+<div class="container-fluid">
 
     <div class="row">
 
@@ -12,7 +12,7 @@
                     Categories
                 </a>
             @endcan
-            <a href="/home/users"
+            <a href="/users"
                class="page-link mb-3 {{ isset($current_tab) ? ($current_tab == 'users') ? 'bg-info text-light' : '' : '' }}">
                 Users
             </a>
@@ -28,9 +28,8 @@
                         </div>
                     @endif
                     <!-- Greeting the with User's Name and Role -->
-                    <div class="alert alert-success text-right">
-                        Hello, <span class="mark">{{ $user_name }}</span> |
-                        Project Role: <span class="mark">{{ $user_role }}</span>
+                    <div class="alert alert-info text-right">
+                        {{ $user_name }} | Role: {{ $user_role }}
                     </div>
 
                     <hr/>
