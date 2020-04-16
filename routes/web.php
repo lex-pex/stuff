@@ -21,13 +21,13 @@ Route::get('/item/{id}/edit', 'GuestController@edit')->name('item_edit');
 
 Route::get('/home', 'HomeController@index')->middleware('moderator')->name('home');
 
-Route::get('/profile', 'ProfileController@profile')->middleware('auth')->name('profile');
-
 Route::resource('items', 'ItemController')->except(['index', 'show']);
 
 Route::middleware('admin')->resource('categories', 'CategoryController')->except(['show']);
 
-Route::middleware('admin')->resource('users', 'ProfileController');
+Route::get('users/cabinet', 'UserController@cabinet');
+
+Route::middleware('admin')->resource('users', 'UserController');
 
 Route::get('error_page', function() { return view('error'); })->name('error_page');
 

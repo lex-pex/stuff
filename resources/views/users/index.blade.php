@@ -11,11 +11,8 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <!-- Greeting the with User's Name and Role -->
-                    <div class="alert alert-success text-right">
-                        {{--Hello, <span class="mark">{{ $user_name }}</span> |--}}
-                        {{--Project Role: <span class="mark">{{ $user_role }}</span>--}}
-                    </div>
+                    <!-- Greeting with the User -->
+                    <div class="alert alert-success text-right"> Hello, {{ Auth::user()->name }}</div>
                     <hr/>
                     <div class="row p-2">
                         <div class="col-6 text-left">

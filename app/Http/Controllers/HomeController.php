@@ -10,8 +10,6 @@ class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -32,6 +30,5 @@ class HomeController extends Controller
             'user_role' => $user->roles()->first()->role,
             'items' => $items
         ]);
-        // return view('home');
     }
 }
