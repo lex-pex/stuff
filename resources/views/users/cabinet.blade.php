@@ -13,7 +13,7 @@
                     @endif
                     <!-- Greeting with the User -->
                     <div class="alert alert-success text-right">
-                        <h3>cabinet</h3>
+                        <h5> {{ isset($title) ? $title : 'page title' }} </h5>
                         Hello, {{ $user->name }}
                         <br/>
                         Project Role: {{ ($r = $user->roles()->first()) ? $r->role : 'none' }}

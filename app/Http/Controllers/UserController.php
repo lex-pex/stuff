@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
+    /**
+     * Display own users cabinet as the specified resource.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function cabinet()
+    {
+        return view('users.cabinet', [
+            'user' => Auth::user()
+        ])->withTitle('cabinet');
+    }
+
     /**
      * Display a listing of the resource.
      * Browsing page of all users.
@@ -19,18 +30,7 @@ class UserController extends Controller
         $users = User::all()->sortBy('id');
         return view('users.index', [
             'users' => $users
-        ]);
-    }
-
-    /**
-     * Display own users cabinet as the specified resource.
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function cabinet()
-    {
-        return view('users.cabinet', [
-            'user' => Auth::user()
-        ]);
+        ])->withTitle('users');
     }
 
     /**
@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        dump('users.create');
     }
 
     /**
@@ -51,53 +51,56 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dump('users.store = new User()');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
         return view('users.profile', [
-            'user' => User::findOrFail($id)
-        ]);
+            'user' => $user
+        ])->withTitle('profile');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        dump('users.edit.' . $user->id);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        dump('update the user: ' . $user->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        if(Gate::denies('users', $user->id)) {
+            return redirect('error_page')->with('message', 'There is no access to users');
+        }
+        dump('destroy the user: ' . $user->id);
     }
 }

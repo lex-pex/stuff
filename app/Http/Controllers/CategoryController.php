@@ -29,7 +29,7 @@ class CategoryController extends Controller
             'user_name' => $user->name,
             'user_role' => $user->roles()->first()->role,
             'categories' => $categories
-        ]);
+        ])->withTitle('categories');
     }
 
     /**
@@ -112,6 +112,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+
+        dd('destroy category( ' . $id . ')');
+
         if(Gate::denies('categories')) {
             return redirect('error_page')->with('message', 'There is no access to categories');
         }

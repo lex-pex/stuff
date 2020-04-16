@@ -16,10 +16,10 @@
                     <hr/>
                     <div class="row p-2">
                         <div class="col-6 text-left">
-                            <h5> Categories: </h5>
+                            <h5> {{ isset($title) ? $title : 'page title' }} </h5>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="{{ route('categories.create') }}" class="btn btn-outline-info">Add New</a>
+                            <a href="{{ route('users.create') }}" class="btn btn-sm btn-outline-info">Add New</a>
                         </div>
                     </div>
                     <table class="table">
@@ -35,11 +35,14 @@
                         @foreach($users as $user)
                         <tr>
                             <th scope="row">{{ $user->id }}</th>
-                            <td><strong>{{ $user->name }}</strong></td>
                             <td>
-                                <a href="{{ route('users.edit', $user) }}" class="btn btn-outline-info">Edit</a>
-                                <a onclick="event.preventDefault();myScript('{{ $user->id }}', '{{ $user->name }}')" data-toggle="modal" data-target="#modal-default"
-                                   class="btn btn-outline-danger mx-2 text-danger">Del</a>
+                                <a class="btn btn-link" href="{{ route('users.show', $user->id) }}"><strong>{{ $user->name }}</strong></a>
+                            </td>
+                            <td>
+                                <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-outline-info" style="padding: 0 6px 0 6px;"> Edit </a>
+                                <a onclick="event.preventDefault();deleteConfirm('{{ $user->id }}', '{{ $user->name }}', 'user')"
+                                   data-toggle="modal" data-target="#modal-default"
+                                   class="btn btn-sm btn-outline-danger mx-2 text-danger" style="padding: 0 10px 0 10px;"> Del </a>
                             </td>
                             <th scope="row" width="20%">
                                 <small>
@@ -50,7 +53,11 @@
                             </th>
                         </tr>
                         @endforeach
-                        <tr><td colspan="4" class="text-center bg-light">app categories</td></tr>
+                        <tr>
+                            <td colspan="4" class="text-center bg-light">
+                                {{ isset($title) ? $title : 'page title' }}
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -59,42 +66,33 @@
     </div>
 </div>
 <!-- Delete Confirmation Pop-Up Modal -->
-<script>
-    /**
-     * Get and Substitute parameter of the Delete Form
-     * Get and Substitute title of the Category
-     * @param id - category id
-     * @param name - category name
-     */
-    function myScript(id, name) {
-        document.getElementById('del_form').setAttribute('action', '/categories/' + id);
-        document.getElementById('category_name').innerHTML = '\" ' + name + ' \"';
-    }
-</script>
-<!-- Delete Confirmation Pop-Up Modal -->
 <div class="container">
     <div class="modal fade in" id="modal-default" style="display: none; padding-right: 15px;">
         <div class="modal-dialog">
             <div class="modal-content">
+
                 <div class="modal-header text-center">
-                    <span class="modal-title">Deleting a Category <strong id="category_id"></strong></span>
+                    <span id="del_modal_title" class="modal-title"> Delete </span>
                     <a class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"> × </span>
                     </a>
                 </div>
+
                 <div class="modal-body text-center text-bold">
                     <p>Are you sure you want</p>
-                    <p>to erase an Category:</p>
-                    <p id="category_name"> </p>
+                    <p>to erase the <i id="item">Item</i> :</p>
+                    <p id="item_name"> </p>
                 </div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
-                    <form id="del_form" method="post" style="display: inline-block">
+                    <button type="button" class="btn btn-sm btn-outline-dark" data-dismiss="modal">Cancel</button>
+                    <form id="del_form" method="post" action="404" style="display: inline-block">
                         @csrf
                         <input type="hidden" name="_method" value="delete">
-                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>

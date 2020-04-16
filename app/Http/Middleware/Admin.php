@@ -16,16 +16,12 @@ class Admin
     public function handle($request, Closure $next)
     {
         $user = $request->user();
-
         $abort = true;
-
         if($user != null)
             foreach ($user->roles as $role)
                 if($role->role == 'admin')
                     $abort = false;
-
         if($abort) return abort(404);
-
         return $next($request);
     }
 }

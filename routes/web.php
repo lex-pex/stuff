@@ -25,7 +25,7 @@ Route::resource('items', 'ItemController')->except(['index', 'show']);
 
 Route::middleware('admin')->resource('categories', 'CategoryController')->except(['show']);
 
-Route::get('users/cabinet', 'UserController@cabinet');
+Route::get('users/cabinet', 'UserController@cabinet')->name('cabinet');
 
 Route::middleware('admin')->resource('users', 'UserController');
 

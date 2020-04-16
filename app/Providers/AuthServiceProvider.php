@@ -34,6 +34,16 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        Gate::define('users', function(User $user, $id) {
+            if(!$user) return false;
+            if ($user->id == $id)
+                return true;
+            foreach ($user->roles as $role)
+                if($role->role == 'admin')
+                    return true;
+            return false;
+        });
+
         Gate::define('create_item', function(User $user) {
             if(!$user) return false;
             foreach ($user->roles as $role)
