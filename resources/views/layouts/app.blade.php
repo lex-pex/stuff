@@ -40,6 +40,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('cabinet') }}"> Cabinet </a>
+
                                 @can('edit_item')
                                 <a class="dropdown-item" href="{{ route('home') }}"> Dashboard </a>
                                 @endcan

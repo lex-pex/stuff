@@ -52,7 +52,6 @@ class GuestController extends Controller
     {
         $item = Item::findOrFail($id);
         return view('items.show', [
-            'edit_access' => Gate::allows('edit_item'),
             'item' => $item
         ]);
     }

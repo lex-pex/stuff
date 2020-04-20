@@ -32,6 +32,7 @@ require('./bootstrap');
  * @param item - item name
  */
 window.deleteConfirm = function (id, name, item) {
+
     // Get plural route-name for Resource Controller
     var routeName = '';
     if(item[item.length - 1] === 'y') {
@@ -51,4 +52,9 @@ window.deleteConfirm = function (id, name, item) {
     document.getElementById('item').innerHTML = item;
     // Display the name property of the item
     document.getElementById('item_name').innerHTML = '\" ' + name + ' \"';
+
 };
+
+
+
+
