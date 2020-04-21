@@ -23,9 +23,9 @@ Route::get('/home', 'HomeController@index')->middleware('moderator')->name('home
 
 Route::resource('items', 'ItemController')->except(['index', 'show']);
 
-Route::middleware('admin')->resource('categories', 'CategoryController')->except(['show']);
-
 Route::get('users/cabinet', 'UserController@cabinet')->name('cabinet');
+
+Route::middleware('admin')->resource('categories', 'CategoryController')->except(['show']);
 
 Route::middleware('admin')->resource('users', 'UserController');
 

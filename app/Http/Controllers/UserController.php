@@ -27,7 +27,24 @@ class UserController extends Controller
      */
     public function index()
     {
+
+//        $users = User::with('roles')->get();
+
         $users = User::all()->sortBy('id');
+
+//        $user = $users->last();
+//
+//        $res = 'Role: ';
+//
+//        foreach ($user->roles()->get() as $role) {
+//            $res .= $role->role . ', ';
+//        }
+//        die($res);
+//
+//        dump($user->roles()->first()->role);
+//
+//        die();
+
         return view('users.index', [
             'users' => $users
         ])->withTitle('users');
