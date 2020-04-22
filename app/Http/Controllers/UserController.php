@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -27,24 +28,7 @@ class UserController extends Controller
      */
     public function index()
     {
-
-//        $users = User::with('roles')->get();
-
         $users = User::all()->sortBy('id');
-
-//        $user = $users->last();
-//
-//        $res = 'Role: ';
-//
-//        foreach ($user->roles()->get() as $role) {
-//            $res .= $role->role . ', ';
-//        }
-//        die($res);
-//
-//        dump($user->roles()->first()->role);
-//
-//        die();
-
         return view('users.index', [
             'users' => $users
         ])->withTitle('users');
@@ -57,7 +41,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        dump('users.create');
+        if(Gate::denies('users', 0)) {
+            return redirect('error_page')->with('message', 'There is no access to users');
+        }
+        return view('users.create')->withTitle('create User');
     }
 
     /**
@@ -68,7 +55,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        dump('users.store = new User()');
+        $this->validate($request, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+        $user = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+        ]);
+        return redirect(route('users.show', $user));
     }
 
     /**
@@ -118,6 +115,7 @@ class UserController extends Controller
         if(Gate::denies('users', $user->id)) {
             return redirect('error_page')->with('message', 'There is no access to users');
         }
-        dump('destroy the user: ' . $user->id);
+        $user->delete();
+        return redirect(route('users.index'))->with(['status' => 'Category ' . $user->id . ' deleted successfully']);
     }
 }

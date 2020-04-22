@@ -22,7 +22,7 @@ class GuestController extends Controller
         return view('index', [
             'items' => $items,
             'categories' => $categories
-        ]);
+        ])->withTitle('main');
     }
 
     /**
