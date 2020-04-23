@@ -11,6 +11,19 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     * Browsing page of all users.
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $users = User::all()->sortBy('id');
+        return view('users.index', [
+            'users' => $users
+        ])->withTitle('users');
+    }
+
+    /**
      * Display own users cabinet as the specified resource.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -22,16 +35,16 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * Browsing page of all users.
+     * Display the specified resource.
+     *
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function show(User $user)
     {
-        $users = User::all()->sortBy('id');
-        return view('users.index', [
-            'users' => $users
-        ])->withTitle('users');
+        return view('users.profile', [
+            'user' => $user
+        ])->withTitle('profile');
     }
 
     /**
@@ -69,19 +82,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        return view('users.profile', [
-            'user' => $user
-        ])->withTitle('profile');
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\User  $user
@@ -89,7 +89,12 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        dump('users.edit.' . $user->id);
+        if(Gate::denies('users', 0)) {
+            return redirect('error_page')->with('message', 'There is no access to users');
+        }
+        return view('users.edit', [
+            'user' => $user
+        ])->withTitle('create User');
     }
 
     /**
@@ -101,7 +106,23 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        dump('update the user: ' . $user->id);
+        $validateRules = [
+            'name' => ['required', 'string', 'max:255']
+        ];
+        if($request->password) {
+            $validateRules['password'] = ['required', 'string', 'min:8', 'confirmed'];
+        }
+        if($request->email !== $user->email) {
+            $validateRules['email'] = ['required', 'string', 'email', 'max:255', 'unique:users'];
+        }
+        $this->validate($request, $validateRules);
+        $data = $request->except('_token', 'password');
+        if($request->password) {
+            $data['password'] = Hash::make($request['password']);
+        }
+        $user->fill($data);
+        $user->save();
+        return redirect(route('users.show', $user));
     }
 
     /**

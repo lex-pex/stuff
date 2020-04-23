@@ -14,9 +14,11 @@
                     <!-- Greeting with the User -->
                     <div class="alert alert-success text-right">
                         <h5> {{ isset($title) ? $title : 'page title' }} </h5>
-                        Hello, {{ $user->name }}
+                        {{ $user->name }}
                         <br/>
-                        Project Role: {{ ($r = $user->roles()->first()) ? $r->role : 'none' }}
+                        {{ $user->email }}
+                        <br/>
+                        Project Roles: <mark>{{ ($r = $user->roles()->first()) ? $r->role : 'none' }}</mark>
                     </div>
                     <hr/>
                 </div>
