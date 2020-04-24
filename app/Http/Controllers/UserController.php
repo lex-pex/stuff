@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,7 @@ class UserController extends Controller
      */
     public function cabinet()
     {
+        if(!Auth::check()) abort(404);
         return view('users.cabinet', [
             'user' => Auth::user()
         ])->withTitle('cabinet');
@@ -92,8 +94,21 @@ class UserController extends Controller
         if(Gate::denies('users', 0)) {
             return redirect('error_page')->with('message', 'There is no access to users');
         }
+        $roles = Role::all();
+
+        $uroles = [];
+
+        foreach ($user->roles as $role) {
+            $uroles[] = $role->role;
+        }
+
+//        dump(in_array('admin', $uroles));
+//        die();
+
         return view('users.edit', [
-            'user' => $user
+            'user' => $user,
+            'roles' => $roles,
+            'uroles' => $uroles
         ])->withTitle('create User');
     }
 
@@ -106,6 +121,13 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+
+        $data = $request->except('_token', '_method');
+
+        dump($data);
+
+        die();
+
         $validateRules = [
             'name' => ['required', 'string', 'max:255']
         ];

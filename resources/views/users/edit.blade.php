@@ -38,7 +38,24 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Roles') }}</label>
+                            <div class="col-md-6">
+                                @foreach($roles as $role)
+                                <div class="form-check">
+                                    <input {{ in_array($role->role, $uroles) ? 'checked' : '' }} type="checkbox" name="roles[]" value="{{ $role->role }}" class="form-check-input" id="{{ 'id_'. $role }}">
+                                    <label class="form-check-label" for="{{ 'id_'. $role }}">{{ ucfirst($role->role) }}</label>
+                                </div>
+                                @endforeach
+                                @error('roles')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('New Password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="* * * * * * * *" autocomplete="new-password">

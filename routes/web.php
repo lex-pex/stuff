@@ -27,7 +27,7 @@ Route::get('users/cabinet', 'UserController@cabinet')->name('cabinet');
 
 Route::middleware('admin')->resource('categories', 'CategoryController')->except(['show']);
 
-Route::middleware('admin')->resource('users', 'UserController');
+Route::middleware('moderator')->resource('users', 'UserController');
 
 Route::get('error_page', function() { return view('error'); })->name('error_page');
 
