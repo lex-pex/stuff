@@ -95,16 +95,10 @@ class UserController extends Controller
             return redirect('error_page')->with('message', 'There is no access to users');
         }
         $roles = Role::all();
-
         $uroles = [];
-
         foreach ($user->roles as $role) {
             $uroles[] = $role->role;
         }
-
-//        dump(in_array('admin', $uroles));
-//        die();
-
         return view('users.edit', [
             'user' => $user,
             'roles' => $roles,
