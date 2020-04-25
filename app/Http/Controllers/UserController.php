@@ -115,16 +115,39 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
         $data = $request->except('_token', '_method');
 
-        dump($data);
+        $requestRolesArray = $request->roles;
+        $userRolesArray = $user->roles->toArray();
+
+        for($i = 0; $i < $userRolesArray; $i ++) {
+            if(in_array($userRolesArray[$i], $requestRolesArray)) {
+//                array_search();
+            }
+        }
+
+        dump($userRolesArray); die();
+
+        $allRolesCollection = Role::all();
+
+        foreach($allRolesCollection as $role) {
+
+            if(in_array($role->role, $requestRolesArray)) {
+                $user->roles()->save($role);
+            } else {
+                $user->roles()->detach($role);
+            }
+
+        }
+
+        dump($user->roles);
 
         die();
 
         $validateRules = [
             'name' => ['required', 'string', 'max:255']
         ];
+
         if($request->password) {
             $validateRules['password'] = ['required', 'string', 'min:8', 'confirmed'];
         }
