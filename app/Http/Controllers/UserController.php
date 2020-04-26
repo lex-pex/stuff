@@ -115,46 +115,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $data = $request->except('_token', '_method');
-
-        $requestRolesArray = $request->roles;
-        $userRolesArray = $user->roles->toArray();
-
-        for($i = 0; $i < $userRolesArray; $i ++) {
-            if(in_array($userRolesArray[$i], $requestRolesArray)) {
-//                array_search();
-            }
-        }
-
-        dump($userRolesArray); die();
-
-        $allRolesCollection = Role::all();
-
-        foreach($allRolesCollection as $role) {
-
-            if(in_array($role->role, $requestRolesArray)) {
-                $user->roles()->save($role);
-            } else {
-                $user->roles()->detach($role);
-            }
-
-        }
-
-        dump($user->roles);
-
-        die();
-
-        $validateRules = [
-            'name' => ['required', 'string', 'max:255']
-        ];
-
-        if($request->password) {
-            $validateRules['password'] = ['required', 'string', 'min:8', 'confirmed'];
-        }
-        if($request->email !== $user->email) {
-            $validateRules['email'] = ['required', 'string', 'email', 'max:255', 'unique:users'];
-        }
-        $this->validate($request, $validateRules);
+        $this->rolesAssignmentManaging($request, $user);
+        $this->validate($request, $this->updateValidationRules($request, $user));
         $data = $request->except('_token', 'password');
         if($request->password) {
             $data['password'] = Hash::make($request['password']);
@@ -162,6 +124,57 @@ class UserController extends Controller
         $user->fill($data);
         $user->save();
         return redirect(route('users.show', $user));
+    }
+
+    /**
+     * Assign the roles according checkboxes on the form
+     * @param Request $request -
+     * @param User $user - edited user
+     */
+    private function rolesAssignmentManaging(Request $request, User $user) {
+            // ___ Get Request Roles
+        $requestRolesArray = $request->roles ? $request->roles : [];
+            // ___ Get existed User's Roles Array
+        $userRolesArray = $user->roles->toArray();
+            // Get existed User's Roles as array of strings
+        $userRoleNamesArray = [];
+        for($i = 0; $i < count($userRolesArray); $i ++) {
+            $userRoleNamesArray[] = $userRolesArray[$i]['role'];
+        }
+            // ___ Attach, Detach, or Leave Roles according matching Request and User Roles Arrays
+            // Go through all roles
+        $allRolesCollection = Role::all();
+        foreach($allRolesCollection as $role) {
+                // Add or Delete Role depending whether it exists in request
+            if (in_array($role->role, $requestRolesArray)) {
+                // Prevent Duplicating Record if it already has been set
+                if (!in_array($role->role, $userRoleNamesArray)) {
+                    $user->roles()->attach($role);
+                }
+                // Delete Role if it didn't checked on the form
+            } else {
+                $user->roles()->detach($role);
+            }
+        }
+    }
+
+    /**
+     * Get Validation Rules Array for Update User
+     * @param Request $request
+     * @param User $user
+     * @return array
+     */
+    private function updateValidationRules(Request $request, User $user) {
+        $validateRules = [
+            'name' => ['required', 'string', 'max:255']
+        ];
+        if($request->password) {
+            $validateRules['password'] = ['required', 'string', 'min:8', 'confirmed'];
+        }
+        if($request->email !== $user->email) {
+            $validateRules['email'] = ['required', 'string', 'email', 'max:255', 'unique:users'];
+        }
+        return $validateRules;
     }
 
     /**
