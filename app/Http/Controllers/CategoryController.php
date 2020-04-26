@@ -112,15 +112,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-
-        dd('destroy category( ' . $id . ')');
-
         if(Gate::denies('categories')) {
             return redirect('error_page')->with('message', 'There is no access to categories');
         }
         $category = Category::findOrFail($id);
         $category->delete();
-        return redirect(route('categories.index'))->with(['status' => 'Category ' . $id . ' deleted successfully']);
+        return redirect(route('categories.index'))->with(['status' => 'Category #' . $id . ' deleted successfully']);
     }
 }
 

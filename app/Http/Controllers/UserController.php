@@ -188,7 +188,12 @@ class UserController extends Controller
         if(Gate::denies('users', $user->id)) {
             return redirect('error_page')->with('message', 'There is no access to users');
         }
+        if(count($user->roles)) {
+            return redirect()->back()->withStatus(
+                'Cannot Delete User with roles, need to delete user\'s (#'. $user->id .', '. $user->name .') roles first !'
+            );
+        }
         $user->delete();
-        return redirect(route('users.index'))->with(['status' => 'Category ' . $user->id . ' deleted successfully']);
+        return redirect(route('users.index'))->with(['status' => 'User #' . $user->id . ' deleted successfully']);
     }
 }
