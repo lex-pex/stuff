@@ -7,19 +7,21 @@
                 <div class="card-header">Dashboard</div>
                 <div class="card-body">
                     @if (session('status'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ session('status') }}
-                        </div>
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('status') }}
+                    </div>
                     @endif
                     <!-- Greeting with the User -->
-                    <div class="alert alert-success text-right"> Hello, {{ Auth::user()->name }}</div>
+                    <div class="alert alert-success text-right">
+                        <span class="mark">{{ Auth::user()->name }}</span>
+                    </div>
                     <hr/>
                     <div class="row p-2">
                         <div class="col-6 text-left">
                             <h5> {{ isset($title) ? $title : 'page title' }} </h5>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="{{ route('users.create') }}" class="btn btn-sm btn-outline-info">Add New</a>
+                            <a href="{{ route('users.create') }}" class="btn btn-sm btn-outline-info" style="padding: 0 6px 0 6px;">Add New</a>
                         </div>
                     </div>
                     <table class="table">

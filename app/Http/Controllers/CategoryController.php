@@ -24,10 +24,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::orderBy('created_at', 'desc')->get();
-        $user = Auth::user();
         return view('categories.index', [
-            'user_name' => $user->name,
-            'user_role' => $user->roles()->first()->role,
             'categories' => $categories
         ])->withTitle('categories');
     }
@@ -78,12 +75,10 @@ class CategoryController extends Controller
         if(Gate::denies('categories')) {
             return redirect('error_page')->with('message', 'There is no access to categories');
         }
-        $action = 'Update Category';
         $category = Category::findOrFail($id);
         return view('categories.edit', [
-            'action' => $action,
             'category' => $category
-        ]);
+        ])->withTitle('Update Category #' . $id);
     }
 
     /**

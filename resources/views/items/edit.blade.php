@@ -6,7 +6,9 @@
                 <div class="card">
                     <div class="card-header">{{ $action }}</div>
                     <div class="card-body">
-                        <div class="text-danger mr-auto"><small>{{ session('status') }}</small></div>
+                        <div class="text-danger mr-auto">
+                            <small>{{ session('status') }}</small>
+                        </div>
                         <form method="POST" action="{{ route('items.update', $item) }}" enctype="multipart/form-data">
                             @method('put')
                             @csrf
