@@ -6,6 +6,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\UploadedFile;
 
 class CategoryController extends Controller
 {
@@ -92,10 +93,21 @@ class CategoryController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|min:3|max:128',
+            'description' => 'required|min:50|max:1024',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:512'
         ]);
         $category = Category::findOrFail($id);
-        $category->name = $request->name;
+        $data = $request->except('_token', 'image', 'image_del');
+        $category->fill($data);
+
+        if($request->has('image_del')) {
+            $this->imageDelete($category->image);
+            $category->image = '';
+        } elseif ($file = $request->image) {
+            $this->imageSave($file, $category);
+        }
         $category->save();
+
         return redirect(route('categories.index'))->with(['status' => 'Category ' . $id . ' updated successfully']);
     }
 
@@ -113,6 +125,21 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
         return redirect(route('categories.index'))->with(['status' => 'Category #' . $id . ' deleted successfully']);
+    }
+
+    // _________ Private File Helpers: _________
+
+    private function imageSave(UploadedFile $file, Item $i) {
+        if($path = $i->image)
+            $this->imageDelete($path);
+        $dateName = date('dmyHis');
+        $name = $dateName . '.' . $file->getClientOriginalExtension();
+        $file->move($this->folder, $name);
+        $i->image = "/$this->folder/$name";
+    }
+
+    private function imageDelete(string $path) {
+        File::delete(trim($path, '/'));
     }
 }
 

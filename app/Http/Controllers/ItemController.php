@@ -97,11 +97,11 @@ class ItemController extends Controller
     {
         $this->validate($request, [
             'title' => 'required|min:3|max:128',
-            'text' => 'required|min:50|max:512',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'text' => 'required|min:50|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:512'
         ]);
         $data = $request->except('_token', 'image', 'image_del');
-        $item->fill( $data );
+        $item->fill($data);
         if($request->has('image_del')) {
             $this->imageDelete($item->image);
             $item->image = '';
