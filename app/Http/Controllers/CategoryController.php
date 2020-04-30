@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\UploadedFile;
 
 class CategoryController extends Controller
 {
+    /**
+     * @var string Default path for storing image-files
+     */
+    private $imgFolder = 'img/categories';
+
     /**
      * Create a new controller instance.
      */
@@ -24,7 +30,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('created_at', 'desc')->get();
+        $categories = Category::orderBy('id', 'desc')->get();
         return view('categories.index', [
             'categories' => $categories
         ])->withTitle('categories');
@@ -39,11 +45,11 @@ class CategoryController extends Controller
         if(Gate::denies('categories')) {
             return redirect('error_page')->with(['message' => 'There is no access to categories']);
         }
-        $action = 'Create Category';
+        $title = 'Create Category';
         $categories = Category::all();
 
         return view('categories.create', [
-            'action' => $action,
+            'title' => $title,
             'categories' => $categories,
         ]);
     }
@@ -91,15 +97,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required|min:3|max:128',
-            'description' => 'required|min:50|max:1024',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:512'
-        ]);
-        $category = Category::findOrFail($id);
         $data = $request->except('_token', 'image', 'image_del');
-        $category->fill($data);
+        $validationRules = [
+            'name' => 'required|min:3|max:128',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ];
+        if($request->description) {
+            $validationRules[] = ['description' => 'required|min:10|max:1024'];
+        } else {
+            $data['description'] = '';
+        }
+        $this->validate($request, $validationRules);
 
+        $category = Category::findOrFail($id);
+        $category->fill($data);
         if($request->has('image_del')) {
             $this->imageDelete($category->image);
             $category->image = '';
@@ -107,8 +118,7 @@ class CategoryController extends Controller
             $this->imageSave($file, $category);
         }
         $category->save();
-
-        return redirect(route('categories.index'))->with(['status' => 'Category ' . $id . ' updated successfully']);
+        return redirect(route('categories.index'))->with(['status' => 'Category #' . $id . ' updated successfully']);
     }
 
     /**
@@ -123,23 +133,32 @@ class CategoryController extends Controller
             return redirect('error_page')->with('message', 'There is no access to categories');
         }
         $category = Category::findOrFail($id);
+        $this->imageDelete($category->image);
         $category->delete();
         return redirect(route('categories.index'))->with(['status' => 'Category #' . $id . ' deleted successfully']);
     }
 
-    // _________ Private File Helpers: _________
-
-    private function imageSave(UploadedFile $file, Item $i) {
+    /**
+     * Save uploaded image, set model's image path
+     * @param UploadedFile $file
+     * @param Model $i
+     */
+    private function imageSave(UploadedFile $file, Model $i) {
         if($path = $i->image)
             $this->imageDelete($path);
         $dateName = date('dmyHis');
         $name = $dateName . '.' . $file->getClientOriginalExtension();
-        $file->move($this->folder, $name);
-        $i->image = "/$this->folder/$name";
+        $file->move($this->imgFolder, $name);
+        $i->image = '/'.$this->imgFolder.'/'.$name;
     }
 
+    /**
+     * Delete file by path
+     * @param string $path
+     */
     private function imageDelete(string $path) {
-        File::delete(trim($path, '/'));
+        if($path)
+            File::delete(trim($path, '/'));
     }
 }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Item;
 use App\Category;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -16,7 +17,7 @@ class ItemController extends Controller
     /**
      * @var string Default path for storing image-files
      */
-    private $folder = 'img/items';
+    private $imgFolder = 'img/items';
 
     /**
      * Show the form for creating a new resource.
@@ -48,7 +49,7 @@ class ItemController extends Controller
     {
         $this->validate($request, [
             'title' => 'required|min:3|max:128',
-            'text' => 'required|min:50|max:512',
+            'text' => 'required|min:50|max:2048',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
         $data = $request->except('_token', 'image');
@@ -98,7 +99,7 @@ class ItemController extends Controller
         $this->validate($request, [
             'title' => 'required|min:3|max:128',
             'text' => 'required|min:50|max:2048',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:512'
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
         $data = $request->except('_token', 'image', 'image_del');
         $item->fill($data);
@@ -109,7 +110,7 @@ class ItemController extends Controller
             $this->imageSave($file, $item);
         }
         $item->save();
-        return redirect()->back()->with(['status' => 'Ad updated successfully']);
+        return redirect()->back()->with(['status' => 'Item updated successfully']);
     }
 
     /**
@@ -123,22 +124,33 @@ class ItemController extends Controller
         if(Gate::denies('delete_item')) {
             return redirect('error_page')->with('message', 'There is no access to delete item');
         }
+        $this->imageDelete($item->image);
         $item->delete();
         return redirect('/');
     }
 
-    // _________ Private File Helpers: _________
-
-    private function imageSave(UploadedFile $file, Item $i) {
+    /**
+     * Save uploaded image, set model's image path
+     * @param UploadedFile $file
+     * @param Model $i
+     */
+    private function imageSave(UploadedFile $file, Model $i) {
         if($path = $i->image)
             $this->imageDelete($path);
         $dateName = date('dmyHis');
         $name = $dateName . '.' . $file->getClientOriginalExtension();
-        $file->move($this->folder, $name);
-        $i->image = "/$this->folder/$name";
+        $file->move($this->imgFolder, $name);
+        $i->image = '/'.$this->imgFolder.'/'.$name;
     }
 
+    /**
+     * Delete file by path
+     * @param string $path
+     */
     private function imageDelete(string $path) {
-        File::delete(trim($path, '/'));
+        if($path)
+            File::delete(trim($path, '/'));
     }
 }
+
+

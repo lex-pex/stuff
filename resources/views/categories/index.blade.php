@@ -34,7 +34,7 @@
                             <th scope="col"> <small>Created/Updated</small></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-black-50">
                         @foreach($categories as $category)
                         <tr>
                             <th scope="row">{{ $category->id }}</th>
@@ -43,7 +43,7 @@
                             </th>
                             <td>
                                 <strong>{{ $category->name }}</strong>
-                                {{ $category->description }}
+                                <br />{{ mb_strimwidth($category->description, 0, 120, '....') }}
                             </td>
                             <td>
                                 <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-outline-primary" style="padding: 0 6px 0 6px;"> Edit </a>

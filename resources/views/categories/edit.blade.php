@@ -8,8 +8,7 @@
                     <div class="card-body">
                         <div class="text-danger mr-auto"><small>{{ session('status') }}</small></div>
                         <form method="POST" action="{{ route('categories.update', $category) }}" enctype="multipart/form-data">
-                            @method('put')
-                            @csrf
+                            @method('put') @csrf <span></span>
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Name:</label>
                                 <div class="col-md-6">
