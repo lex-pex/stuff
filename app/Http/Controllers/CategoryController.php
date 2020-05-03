@@ -62,11 +62,22 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|min:3|max:128'
-        ]);
+        $data = $request->except('_token', 'image');
+        $validationRules = [
+            'name' => 'required|min:3|max:128',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ];
+        if($request->description) {
+            $validationRules[] = ['description' => 'required|min:10|max:1024'];
+        } else {
+            $data['description'] = '';
+        }
+        $this->validate($request, $validationRules);
         $category = new Category();
-        $category->name = $request->name;
+        $category->fill($data);
+        if ($file = $request->image) {
+            $this->imageSave($file, $category);
+        }
         $category->save();
         return redirect(route('categories.index'));
     }

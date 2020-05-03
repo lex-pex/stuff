@@ -21,13 +21,11 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="form-group row justify-content-center">
                                 <div class="col-md-6 offset-md-2">
                                     <img src="{{ $category->image ? $category->image : '/img/empty.jpg' }}" width="100%" />
                                 </div>
                             </div>
-
                             <div class="form-group row">
                                 <label for="image" class="col-md-4 col-form-label text-md-right">Picture</label>
                                 <div class="col-md-6">
@@ -40,7 +38,6 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="form-group row">
                                 <div class="col-md-6 offset-md-4">
                                     <div class="form-check">
@@ -49,7 +46,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-group row">
                                 <label for="description" class="col-md-4 col-form-label text-md-right">Description:</label>
                                 <div class="col-md-6">
@@ -62,7 +58,6 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="form-group row mb-0">
                                 <label for="submit" class="col-md-4 col-form-label text-md-right">Submit:</label>
                                 <div class="col-md-6 offset-md-4">
