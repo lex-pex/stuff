@@ -33,7 +33,7 @@ class CategoryController extends Controller
         $categories = Category::orderBy('id', 'desc')->get();
         return view('categories.index', [
             'categories' => $categories
-        ])->withTitle('categories');
+        ])->withTitle('Categories');
     }
 
     /**

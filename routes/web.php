@@ -21,7 +21,7 @@ Route::get('/item/{id}/edit', 'GuestController@edit')->name('item_edit');
 
 Route::get('/home', 'HomeController@index')->middleware('moderator')->name('home');
 
-Route::resource('items', 'ItemController')->except(['index', 'show']);
+Route::resource('items', 'ItemController')->except(['show']);
 
 Route::get('users/cabinet', 'UserController@cabinet')->name('cabinet');
 

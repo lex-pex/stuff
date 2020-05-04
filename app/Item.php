@@ -8,10 +8,11 @@ class Item extends Model
 {
     /**
      * The attributes that are mass assignable.
-     *
+     * status - field controlling the display and sort order,
+     * where 0 is hidden and further numbers give the rating.
      * @var array
      */
-    protected $fillable = ['title', 'text', 'image', 'category_id', 'user_id'];
+    protected $fillable = ['title', 'text', 'image', 'category_id', 'user_id', 'status'];
 
     /**
      * Get the user that owns the article.

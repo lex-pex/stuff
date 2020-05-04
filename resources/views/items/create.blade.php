@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ $action }}</div>
+                    <div class="card-header">{{ $title }}</div>
                     <div class="card-body">
                         <div class="text-danger mr-auto"><small>{{ session('status') }}</small></div>
                         <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">

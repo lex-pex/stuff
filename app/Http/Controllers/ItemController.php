@@ -19,6 +19,18 @@ class ItemController extends Controller
      */
     private $imgFolder = 'img/items';
 
+
+    public function index()
+    {
+        if(Gate::denies('delete_item')) {
+            return redirect('error_page')->with(['message' => 'There is no access to edit item']);
+        }
+        $items = Item::where('status', '=', 0)->paginate(6);
+        return view('items.index', [
+            'items' => $items
+        ])->withTitle('Hidden Items');
+    }
+
     /**
      * Show the form for creating a new resource.
      * @return \Illuminate\Http\Response
@@ -28,16 +40,14 @@ class ItemController extends Controller
         if(Gate::denies('create_item')) {
             return redirect('error_page')->with(['message' => 'There is no access to create item']);
         }
-        $action = 'Create Item';
         $categories = Category::all();
         $users = User::all();
         $user = Auth::user();
         return view('items.create', [
-            'action' => $action,
             'categories' => $categories,
             'users' => $users,
             'user' => $user
-        ]);
+        ])->withTitle('Create Item');
     }
 
     /**
