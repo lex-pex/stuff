@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-fluid">
-
     <div class="px-0 mx-0">
         <div class="row">
             <div class="col-md-2 col-sm-12 bg-white py-3 border">
@@ -51,6 +50,5 @@
         </div>
         <hr/>
     </div>
-
 </div>
 @endsection

@@ -20,7 +20,6 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -40,7 +39,6 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('cabinet') }}"> Cabinet </a>
-
                                 @can('edit_item')
                                 <a class="dropdown-item" href="{{ route('home') }}"> Dashboard </a>
                                 @endcan
@@ -52,7 +50,6 @@
                                 @can('categories')
                                     <a class="dropdown-item" href="{{ route('home') }}"> Add Category </a>
                                 @endcan
-
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
@@ -73,10 +70,7 @@
         </main>
     </div>
     <footer class="container">
-        <p>
-            &copy; Company <script>document.write(new Date().getFullYear())</script>
-        </p>
-        <hr/>
+        <p>&copy; Company <script>document.write(new Date().getFullYear())</script></p>
     </footer>
 </body>
 </html>

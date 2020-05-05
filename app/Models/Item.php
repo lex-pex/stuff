@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,7 +19,7 @@ class Item extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'id', 'user_id');
+        return $this->belongsTo('App\Models\User', 'id', 'user_id');
     }
 
     /**
@@ -27,6 +27,6 @@ class Item extends Model
      */
     public function category()
     {
-        return $this->hasOne('App\Category', 'id', 'category_id');
+        return $this->hasOne('App\Models\Category', 'id', 'category_id');
     }
 }

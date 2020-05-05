@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Item;
-use App\Category;
-use App\User;
+use App\Models\Item;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +18,6 @@ class ItemController extends Controller
      * @var string Default path for storing image-files
      */
     private $imgFolder = 'img/items';
-
 
     public function index()
     {
@@ -77,7 +76,7 @@ class ItemController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * @param  \App\Item $item - db record
+     * @param  \App\Models\Item $item - db record
      * @return \Illuminate\Http\Response
      */
     public function edit(Item $item)
@@ -101,7 +100,7 @@ class ItemController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Item $item - db record
+     * @param  \App\Models\Item $item - db record
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Item $item)
@@ -126,7 +125,7 @@ class ItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Item $item - db record
+     * @param  \App\Models\Item $item - db record
      * @return \Illuminate\Http\Response
      */
     public function destroy(Item $item)

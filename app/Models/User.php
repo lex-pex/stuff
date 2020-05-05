@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -41,6 +41,6 @@ class User extends Authenticatable
      * The roles that belong to the user.
      */
     public function roles() {
-        return $this->belongsToMany('App\Role');
+        return $this->belongsToMany('App\Models\Role');
     }
 }
