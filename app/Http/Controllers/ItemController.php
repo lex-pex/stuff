@@ -24,7 +24,7 @@ class ItemController extends Controller
         if(Gate::denies('delete_item')) {
             return redirect('error_page')->with(['message' => 'There is no access to edit item']);
         }
-        $items = Item::where('status', '=', 0)->paginate(6);
+        $items = Item::where('status', '<=', 0)->paginate(6);
         return view('items.index', [
             'items' => $items
         ])->withTitle('Hidden Items');
@@ -59,7 +59,8 @@ class ItemController extends Controller
         $this->validate($request, [
             'title' => 'required|min:3|max:128',
             'text' => 'required|min:50|max:2048',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'required|integer|min:0'
         ]);
         $data = $request->except('_token', 'image');
         $item = new Item();
@@ -84,16 +85,14 @@ class ItemController extends Controller
         if(Gate::denies('edit_item')) {
             return redirect('error_page')->with('message', 'There is no access to update item');
         }
-        $action = 'Update Article';
         $categories = Category::all();
         $users = User::all();
 
         return view('items.edit', [
-            'action' => $action,
             'item' => $item,
             'categories' => $categories,
             'users' => $users
-        ]);
+        ])->withTitle('Edit Item #' . $item->id);
     }
 
     /**
@@ -108,7 +107,8 @@ class ItemController extends Controller
         $this->validate($request, [
             'title' => 'required|min:3|max:128',
             'text' => 'required|min:50|max:2048',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'required|integer|min:0'
         ]);
         $data = $request->except('_token', 'image', 'image_del');
         $item->fill($data);

@@ -16,7 +16,10 @@ class GuestController extends Controller
     {
         $items = Item::where('status', '>', 0)
             ->orderBy('status', 'desc')->orderBy('id', 'desc')->paginate(6);
-        $categories = Category::orderBy('created_at', 'desc')->get();
+
+        $categories = Category::where('status', '>', 0)
+            ->orderBy('status', 'desc')->orderBy('id', 'desc')->get();
+
         return view('index', [
             'items' => $items,
             'categories' => $categories

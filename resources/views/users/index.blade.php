@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">{{ ucfirst($title) }}</div>
                 <div class="card-body">
                     @if (session('status'))
                     <div class="alert alert-danger" role="alert">
@@ -68,7 +68,7 @@
                         @endforeach
                         <tr>
                             <td colspan="5" class="text-center bg-light">
-                                {{ isset($title) ? $title : 'page title' }}
+                                {{ isset($title) ? ucfirst($title) : 'page title' }}
                             </td>
                         </tr>
                         </tbody>

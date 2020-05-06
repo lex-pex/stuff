@@ -21,7 +21,6 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="form-group row">
                                 <label for="text" class="col-md-4 col-form-label text-md-right">Text:</label>
                                 <div class="col-md-6">
@@ -57,13 +56,11 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="form-group row justify-content-center">
                                 <div class="col-md-6 offset-md-2">
                                     <img src="{{ url('/img/empty.jpg') }}" width="100%" />
                                 </div>
                             </div>
-
                             <div class="form-group row">
                                 <label for="image" class="col-md-4 col-form-label text-md-right">Picture:</label>
                                 <div class="col-md-6">
@@ -76,14 +73,24 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">Status:</label>
+                                <div class="col-md-6">
+                                    <input id="name" type="text" name="status" value="{{ old('status') ? old('status') : 1 }}"
+                                           class="form-control @error('status') is-invalid @enderror" autocomplete="status" autofocus>
+                                    @error('status')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="form-group row mb-0">
                                 <label for="submit" class="col-md-4 col-form-label text-md-right">Submit:</label>
                                 <div class="col-md-6 offset-md-4">
                                     <button id="submit" type="submit" class="btn btn-outline-danger btn-block">Send</button>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                     <div class="card-footer text-center">{{ config('app.name') }}</div>

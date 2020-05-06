@@ -36,7 +36,7 @@
                         </thead>
                         <tbody class="text-black-50">
                         @foreach($categories as $category)
-                        <tr>
+                        <tr class="{{ $category->status ? '' : 'bg-secondary' }}">
                             <th scope="row">{{ $category->id }}</th>
                             <th scope="row">
                                 <img src="{{ $category->image ? $category->image : '/img/empty.jpg' }}" width="100%">

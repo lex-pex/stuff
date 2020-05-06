@@ -30,7 +30,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id', 'desc')->get();
+        $categories = Category::orderBy('status', 'desc')->orderBy('id', 'desc')->get();
+
         return view('categories.index', [
             'categories' => $categories
         ])->withTitle('Categories');
@@ -65,7 +66,8 @@ class CategoryController extends Controller
         $data = $request->except('_token', 'image');
         $validationRules = [
             'name' => 'required|min:3|max:128',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'required|integer|min:0'
         ];
         if($request->description) {
             $validationRules[] = ['description' => 'required|min:10|max:1024'];
@@ -111,7 +113,8 @@ class CategoryController extends Controller
         $data = $request->except('_token', 'image', 'image_del');
         $validationRules = [
             'name' => 'required|min:3|max:128',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'required|integer|min:0'
         ];
         if($request->description) {
             $validationRules[] = ['description' => 'required|min:10|max:1024'];

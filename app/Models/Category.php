@@ -8,10 +8,11 @@ class Category extends Model
 {
     /**
      * The attributes that are mass assignable.
-     *
+     * status - field controlling the display and sort order,
+     * where 0 is hidden and further numbers give the rating.
      * @var array
      */
-    protected $fillable = ['name', 'image', 'description'];
+    protected $fillable = ['name', 'image', 'description', 'status'];
 
     /**
      * Get the articles for the category.
