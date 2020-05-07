@@ -11,6 +11,11 @@
                 @endforeach
             </div>
             <div class="col-md-10 col-sm-12">
+                <div class="row justify-content-center">
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <img src="{{ isset($current_category) && $current_category->image ? $current_category->image : '/img/empty.jpg' }}" width="100%" />
+                    </div>
+                </div>
                 <div class="row no-gutters">
                     @foreach($items as $item)
                         <div class="col-md-4 p-1">
