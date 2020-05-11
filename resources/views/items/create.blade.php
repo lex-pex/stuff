@@ -25,7 +25,7 @@
                                 <label for="text" class="col-md-4 col-form-label text-md-right">Text:</label>
                                 <div class="col-md-6">
                                     <textarea id="text" rows="10" type="text" name="text" autocomplete="text"
-                                              class="form-control @error('text') is-invalid @enderror">{{ old('title') }}</textarea>
+                                              class="form-control @error('text') is-invalid @enderror">{{ old('text') }}</textarea>
                                     @error('text')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

@@ -14,10 +14,17 @@ class GuestController extends Controller
      */
     public function index()
     {
+        $category = new \stdClass();
+        $category->name = 'Main Page';
+        $category->id = 0;
+        $category->image = '/img/empty.jpg';
+        $category->description = 'When people are doing a physical task, it\'s easy to assess how hard they are working.';
+
         return view('index', [
+            'current_category' => $category,
             'items' => Item::getAllPubliclySorted(),
             'categories' => Category::getAllPubliclySorted()
-        ])->withTitle('main');
+        ]);
     }
 
     /**
