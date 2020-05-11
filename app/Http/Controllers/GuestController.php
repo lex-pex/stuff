@@ -14,15 +14,9 @@ class GuestController extends Controller
      */
     public function index()
     {
-        $items = Item::where('status', '>', 0)
-            ->orderBy('status', 'desc')->orderBy('id', 'desc')->paginate(6);
-
-        $categories = Category::where('status', '>', 0)
-            ->orderBy('status', 'desc')->orderBy('id', 'desc')->get();
-
         return view('index', [
-            'items' => $items,
-            'categories' => $categories
+            'items' => Item::getAllPubliclySorted(),
+            'categories' => Category::getAllPubliclySorted()
         ])->withTitle('main');
     }
 
@@ -34,11 +28,9 @@ class GuestController extends Controller
     public function category($id)
     {
         $category = Category::findOrFail($id);
-        $items = $category->items()->paginate(6);
-        $categories = Category::orderBy('created_at', 'desc')->get();
         return view('index', [
-            'items' => $items,
-            'categories' => $categories,
+            'items' => $category->items()->paginate(6),
+            'categories' => Category::getAllPubliclySorted(),
             'current_category' => $category
         ]);
     }

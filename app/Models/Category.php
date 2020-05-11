@@ -21,4 +21,20 @@ class Category extends Model
     {
         return $this->hasMany('App\Models\Item', 'category_id', 'id');
     }
+
+    /**
+     * Get all rightly sorted for public browsing
+     * @return mixed
+     */
+    public static function getAllPubliclySorted() {
+        return self::where('status', '>', 0)->orderBy('status', 'desc')->orderBy('id', 'desc')->get();
+    }
+
+    /**
+     * Get all rightly sorted for admin browsing
+     * @return mixed
+     */
+    public static function getAllAdmin() {
+        return self::orderBy('status', 'desc')->orderBy('id', 'desc')->get();
+    }
 }

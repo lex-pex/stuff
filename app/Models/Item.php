@@ -29,4 +29,12 @@ class Item extends Model
     {
         return $this->hasOne('App\Models\Category', 'id', 'category_id');
     }
+
+    /**
+     * Get all rightly sorted for public browsing
+     * @return mixed
+     */
+    public static function getAllPubliclySorted() {
+        return self::where('status', '>', 0)->orderBy('status', 'desc')->orderBy('id', 'desc')->paginate(6);
+    }
 }

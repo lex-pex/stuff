@@ -30,10 +30,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('status', 'desc')->orderBy('id', 'desc')->get();
-
         return view('categories.index', [
-            'categories' => $categories
+            'categories' => Category::getAllAdmin()
         ])->withTitle('Categories');
     }
 
@@ -46,13 +44,7 @@ class CategoryController extends Controller
         if(Gate::denies('categories')) {
             return redirect('error_page')->with(['message' => 'There is no access to categories']);
         }
-        $title = 'Create Category';
-        $categories = Category::all();
-
-        return view('categories.create', [
-            'title' => $title,
-            'categories' => $categories,
-        ]);
+        return view('categories.create')->withTitle('Create Category');
     }
 
     /**
