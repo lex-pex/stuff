@@ -6,3 +6,22 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Bootstrap fails hiding on smaller screen
+@media (max-width: 576px) {
+  .hide-small {
+    display: none !important;
+  }
+}
+
+div .category-bg-image {
+  width:100%;
+  height:125%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position:absolute;
+  top:-25%;
+  z-index:-1;
+}
+
