@@ -14,6 +14,9 @@ class GuestController extends Controller
      */
     public function index()
     {
+        /*
+         * Stub - mock main Category
+         */
         $category = new \stdClass();
         $category->name = 'Main Page';
         $category->id = 0;
