@@ -18,9 +18,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all()->sortBy('id');
         return view('users.index', [
-            'users' => $users
+            'users' => User::orderBy('status', 'desc')->orderBy('id', 'asc')->get()
         ])->withTitle('users');
     }
 
@@ -78,6 +77,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
+            'status' => $request['status'],
             'password' => Hash::make($request['password']),
         ]);
         return redirect(route('users.show', $user));

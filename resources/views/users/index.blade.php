@@ -31,6 +31,7 @@
                             <th width="35%" scope="col"> Name </th>
                             <th width="5%" scope="col"> Edit </th>
                             <th width="10%" scope="col"> Roles </th>
+                            <th width="5%"> Status </th>
                             <th scope="col"> <small> Created<br>Updated </small> </th>
                         </tr>
                         </thead>
@@ -57,6 +58,9 @@
                                     {{ 'none' }} <br>
                                 @endif
                             </td>
+                            <td>
+                                {{ $user->status }}
+                            </td>
                             <td scope="row" width="20%">
                                 <small>
                                     {{ $user->created_at ? date_format($user->created_at, 'd/m/y H:i') : 'Date unknown' }}
@@ -67,7 +71,7 @@
                         </tr>
                         @endforeach
                         <tr>
-                            <td colspan="5" class="text-center bg-light">
+                            <td colspan="6" class="text-center bg-light">
                                 {{ isset($title) ? ucfirst($title) : 'page title' }}
                             </td>
                         </tr>

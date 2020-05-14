@@ -38,3 +38,16 @@ class Category extends Model
         return self::orderBy('status', 'desc')->orderBy('id', 'desc')->get();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -16,16 +16,16 @@
                         <div class="category-bg-image d-lg-block d-md-block d-sm-none hide-small"
                              style="background-image: url({{ isset($current_category) && $current_category->image ? $current_category->image : '/img/empty.jpg' }})">
                         </div>
-                        <div class="d-lg-block d-md-block d-sm-none hide-small p-4" style="width:100%;height:200px;text-shadow:0 0 25px white">
-                            <h1>{{ $current_category->name }}</h1>
-                            <p style="max-width:300px;">{{ $current_category->description }}</p>
+                        <div class="d-lg-block d-md-block d-sm-none hide-small p-4" style="width:100%;height:200px">
+                            <h1 style="padding:3px;max-width:375px;background:white">{{ $current_category->name }}</h1>
+                            <p style="padding:3px;max-width:375px;background:white">{{ $current_category->description }}</p>
                         </div>
                         <!-- End Main Img Big screen -->
                         <!-- Main Img Small screen -->
                         <div class="d-lg-none d-md-none d-sm-block col-12">
                             <div style="position: absolute; top: 20px; left: 20px">
-                                <h1>{{ $current_category->name }}</h1>
-                                <p>{{ $current_category->description }}</p>
+                                <h1 style="padding:3px;max-width:375px;background:white">{{ $current_category->name }}</h1>
+                                <p style="padding:3px;max-width:375px;background:white">{{ $current_category->description }}</p>
                             </div>
                             <img src="{{ isset($current_category) && $current_category->image ? $current_category->image : '/img/empty.jpg' }}" width="100%">
                         </div>

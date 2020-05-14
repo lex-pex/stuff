@@ -61,6 +61,21 @@
                             </div>
                         </div>
 
+                        @can('admin')
+                        <div class="form-group row bg-warning">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">Status (Admin Option):</label>
+                            <div class="col-md-6">
+                                <input id="name" type="text" name="status" value="{{ old('status') ? old('status') : 1 }}"
+                                       class="form-control @error('status') is-invalid @enderror" autocomplete="status" autofocus>
+                                @error('status')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        @endcan
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
