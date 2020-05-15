@@ -26,20 +26,22 @@
                     <div class="row justify-content-center">
                         <!-- Main Img Big screen -->
                         <div class="category-bg-image d-lg-block d-md-block d-sm-none hide-small"
-                             style="background-image: url({{ isset($current_category) && $current_category->image ? $current_category->image : '/img/empty.jpg' }})">
+                             style="background-image: url({{ $category->image ? $category->image : '/img/empty.jpg' }})">
                         </div>
                         <div class="d-lg-block d-md-block d-sm-none hide-small p-4" style="width:100%;height:200px">
-                            <h1 style="padding:3px;max-width:375px;background:white">{{ $category->name }}</h1>
+                            <h1 style="padding:3px;max-width:375px;background-color:rgba(255,255,255, 0.8)">{{ $category->name }}</h1>
                             @if($category->description)
-                            <p style="padding:3px;max-width:375px;background:white">{{ $category->description }}</p>
+                            <p style="padding:3px;max-width:375px;background-color:rgba(255,255,255, 0.8)">{{ $category->description }}</p>
                             @endif
                         </div>
                         <!-- End Main Img Big screen -->
                         <!-- Main Img Small screen -->
                         <div class="d-lg-none d-md-none d-sm-block col-12">
                             <div style="position: absolute; top: 20px; left: 20px">
-                                <h1 style="padding:3px;max-width:375px;background:white">{{ $category->name }}</h1>
-                                <p style="padding:3px;max-width:375px;background:white">{{ $category->description }}</p>
+                                <h1 style="padding:3px;max-width:375px;background-color:rgba(255,255,255, 0.5)">{{ $category->name }}</h1>
+                                @if($category->description)
+                                <p style="padding:3px;max-width:375px;background-color:rgba(255,255,255, 0.5)">{{ $category->description }}</p>
+                                @endif
                             </div>
                             <img src="{{ $category->image ? $category->image : '/img/empty.jpg' }}" width="100%">
                         </div>
