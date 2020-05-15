@@ -4,11 +4,23 @@
         <div class="px-0 mx-0">
             <div class="row">
                 <div class="col-md-2 col-sm-12 py-3 border">
-                    <a href="/" class="page-link mb-3 {{ isset($current_category) ? '' : 'bg-info text-light' }}"> All Categories </a>
-                    @foreach($categories as $category)
-                        <a href="{{ route('category_index', $category->id) }}"
-                           class="page-link mb-3 {{ isset($current_category) ? ($current_category->id == $category->id) ? 'bg-info text-light' : '' : '' }}">{{ $category->name }}</a>
+                    <a href="/" class="page-link mb-3 {{ $category->id == 1 ? 'bg-info text-light' : '' }}"> All Categories </a>
+                    @foreach($categories as $c)
+                        @if($c->id == 1)
+                            @continue
+                        @endif
+                        <a href="{{ route('category_index', $c->id) }}"
+                           class="page-link mb-3 {{ $category->id == $c->id ? 'bg-info text-light' : '' }}">{{ $c->name }}</a>
                     @endforeach
+                    @can('admin')
+                        <hr/>
+                        <p> Category:
+                            <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-outline-primary" style="padding: 0 6px 0 6px;"> Edit </a>
+                            <a onclick="event.preventDefault();deleteConfirm('{{ $category->id }}', '{{ $category->name }}', 'category')"
+                               data-toggle="modal" data-target="#modal-default"
+                               class="btn btn-sm btn-outline-danger text-danger" style="padding: 0 8px 0 7px"> Del </a>
+                        </p>
+                    @endcan
                 </div>
                 <div class="col-md-10 col-sm-12">
                     <div class="row justify-content-center">
@@ -17,17 +29,19 @@
                              style="background-image: url({{ isset($current_category) && $current_category->image ? $current_category->image : '/img/empty.jpg' }})">
                         </div>
                         <div class="d-lg-block d-md-block d-sm-none hide-small p-4" style="width:100%;height:200px">
-                            <h1 style="padding:3px;max-width:375px;background:white">{{ $current_category->name }}</h1>
-                            <p style="padding:3px;max-width:375px;background:white">{{ $current_category->description }}</p>
+                            <h1 style="padding:3px;max-width:375px;background:white">{{ $category->name }}</h1>
+                            @if($category->description)
+                            <p style="padding:3px;max-width:375px;background:white">{{ $category->description }}</p>
+                            @endif
                         </div>
                         <!-- End Main Img Big screen -->
                         <!-- Main Img Small screen -->
                         <div class="d-lg-none d-md-none d-sm-block col-12">
                             <div style="position: absolute; top: 20px; left: 20px">
-                                <h1 style="padding:3px;max-width:375px;background:white">{{ $current_category->name }}</h1>
-                                <p style="padding:3px;max-width:375px;background:white">{{ $current_category->description }}</p>
+                                <h1 style="padding:3px;max-width:375px;background:white">{{ $category->name }}</h1>
+                                <p style="padding:3px;max-width:375px;background:white">{{ $category->description }}</p>
                             </div>
-                            <img src="{{ isset($current_category) && $current_category->image ? $current_category->image : '/img/empty.jpg' }}" width="100%">
+                            <img src="{{ $category->image ? $category->image : '/img/empty.jpg' }}" width="100%">
                         </div>
                         <!-- End Main Img Small screen -->
                     </div>

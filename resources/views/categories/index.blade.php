@@ -73,5 +73,4 @@
         </div>
     </div>
 </div>
-@include('details.del_popup')
 @endsection

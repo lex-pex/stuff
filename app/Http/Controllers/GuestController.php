@@ -15,19 +15,16 @@ class GuestController extends Controller
     public function index()
     {
         /*
-         * Stub - mock main Category
+         * Main Category #1 by Default
+         * Doesn't have any own items
          */
-        $category = new \stdClass();
-        $category->name = 'Main Page';
-        $category->id = 0;
-        $category->image = '/img/empty.jpg';
-        $category->description = 'When people are doing a physical task, it\'s easy to assess how hard they are working.';
+        $category = Category::findOrFail(1);
 
         return view('index', [
-            'current_category' => $category,
+            'category' => $category,
             'items' => Item::getAllPubliclySorted(),
             'categories' => Category::getAllPubliclySorted()
-        ]);
+        ])->withTitle($category->name);
     }
 
     /**
@@ -37,12 +34,19 @@ class GuestController extends Controller
      */
     public function category($id)
     {
+        /*
+         * Main Category #1 by Default
+         * Doesn't have any own items
+         */
+        if($id == 1) {
+            return redirect('/');
+        }
         $category = Category::findOrFail($id);
         return view('index', [
             'items' => $category->items()->paginate(6),
             'categories' => Category::getAllPubliclySorted(),
-            'current_category' => $category
-        ]);
+            'category' => $category
+        ])->withTitle($category->name);
     }
 
     /**

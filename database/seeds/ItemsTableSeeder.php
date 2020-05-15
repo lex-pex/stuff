@@ -18,7 +18,11 @@ class ItemsTableSeeder extends Seeder
             $items[] = [
                 'title' => $faker->text(30),
                 'text' => $faker->text(256),
-                'category_id' => random_int(1, 5),
+                /**
+                 * Except for Main Category #1 by Default. Doesn't have any own items.
+                 * Which Represents all categories, while has all other properties.
+                 */
+                'category_id' => random_int(2, 6),
                 'user_id' => random_int(1, 3),
                 'created_at' => date('Y-m-d H:i:s', time())
             ];

@@ -72,5 +72,6 @@
     <footer class="container">
         <p>&copy; Company <script>document.write(new Date().getFullYear())</script></p>
     </footer>
+    @include('details.del_popup')
 </body>
 </html>
