@@ -30,6 +30,7 @@
                             <th scope="col" width="1%">id</th>
                             <th scope="col" width="20%">Image</th>
                             <th scope="col">Name</th>
+                            <th scope="col" width="5%">Status</th>
                             <th scope="col" width="5%">Edit</th>
                             <th scope="col"> <small>Created/Updated</small></th>
                         </tr>
@@ -45,12 +46,14 @@
                                 <strong>{{ $category->name }}</strong>
                                 <br />{{ mb_strimwidth($category->description, 0, 120, '....') }}
                             </td>
+                            <td>{{ $category->status }}</td>
                             <td>
                                 <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-outline-primary" style="padding: 0 6px 0 6px;"> Edit </a>
                                 <br>
                                 <a onclick="event.preventDefault();deleteConfirm('{{ $category->id }}', '{{ $category->name }}', 'category')"
                                    data-toggle="modal" data-target="#modal-default"
-                                   class="btn btn-sm btn-outline-danger text-danger" style="padding: 0 8px 0 7px"> Del </a>
+                                   class="btn btn-sm btn-outline-danger text-danger"
+                                   style="padding: 0 8px 0 7px;{{ $category->id == 1 ? 'display:none' : '' }}"> Del </a>
                             </td>
                             <th scope="row" width="20%">
                                 <small>
@@ -62,7 +65,7 @@
                         </tr>
                         @endforeach
                         <tr>
-                            <td colspan="5" class="text-center bg-light">
+                            <td colspan="6" class="text-center bg-light">
                                 {{ isset($title) ? $title : 'page title' }}
                             </td>
                         </tr>

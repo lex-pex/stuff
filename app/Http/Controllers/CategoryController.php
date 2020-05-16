@@ -135,7 +135,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        if(Gate::denies('categories')) {
+        /**
+         * Except for Default Main Category
+         */
+        if($id == 1 || Gate::denies('categories')) {
             return redirect('error_page')->with('message', 'There is no access to categories');
         }
         $category = Category::findOrFail($id);

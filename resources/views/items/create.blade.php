@@ -51,6 +51,9 @@
                                 <div class="col-md-6">
                                     <select class="form-control custom-select" name="category_id">
                                         @foreach($categories as $c)
+                                            @if($c->id == 1)
+                                                @continue
+                                            @endif
                                             <option value="{{ $c->id }}">{{ $c->name }}</option>
                                         @endforeach
                                     </select>

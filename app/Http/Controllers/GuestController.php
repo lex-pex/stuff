@@ -14,7 +14,7 @@ class GuestController extends Controller
      */
     public function index()
     {
-        /*
+        /**
          * Main Category #1 by Default
          * Doesn't have any own items
          */
@@ -34,7 +34,7 @@ class GuestController extends Controller
      */
     public function category($id)
     {
-        /*
+        /**
          * Main Category #1 by Default
          * Doesn't have any own items
          */

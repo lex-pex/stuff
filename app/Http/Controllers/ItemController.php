@@ -39,7 +39,10 @@ class ItemController extends Controller
         if(Gate::denies('create_item')) {
             return redirect('error_page')->with(['message' => 'There is no access to create item']);
         }
-        $categories = Category::all();
+        /**
+         * All categories except for Default Main Category
+         */
+        $categories = Category::all()->except(1);
         $users = User::all();
         $user = Auth::user();
         return view('items.create', [
@@ -85,7 +88,10 @@ class ItemController extends Controller
         if(Gate::denies('edit_item')) {
             return redirect('error_page')->with('message', 'There is no access to update item');
         }
-        $categories = Category::all();
+        /**
+         * All categories except for Default Main Category
+         */
+        $categories = Category::all()->except(1);
         $users = User::all();
 
         return view('items.edit', [

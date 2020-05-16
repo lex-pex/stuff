@@ -4,21 +4,18 @@
         <div class="px-0 mx-0">
             <div class="row">
                 <div class="col-md-2 col-sm-12 py-3 border">
-                    <a href="/" class="page-link mb-3 {{ $category->id == 1 ? 'bg-info text-light' : '' }}"> All Categories </a>
                     @foreach($categories as $c)
-                        @if($c->id == 1)
-                            @continue
-                        @endif
                         <a href="{{ route('category_index', $c->id) }}"
                            class="page-link mb-3 {{ $category->id == $c->id ? 'bg-info text-light' : '' }}">{{ $c->name }}</a>
                     @endforeach
                     @can('admin')
                         <hr/>
-                        <p> Category:
+                        <p> <span class="text-info">Category:</span>
                             <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-outline-primary" style="padding: 0 6px 0 6px;"> Edit </a>
                             <a onclick="event.preventDefault();deleteConfirm('{{ $category->id }}', '{{ $category->name }}', 'category')"
                                data-toggle="modal" data-target="#modal-default"
-                               class="btn btn-sm btn-outline-danger text-danger" style="padding: 0 8px 0 7px"> Del </a>
+                               class="btn btn-sm btn-outline-danger text-danger"
+                               style="padding: 0 8px 0 7px; {{ $category->id == 1 ? 'display:none' : '' }}"> Del </a>
                         </p>
                     @endcan
                 </div>
