@@ -11,16 +11,24 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <!-- Greeting with the User -->
-                    <div class="alert alert-success text-right">
-                        <h5> {{ isset($title) ? ucfirst($title) : 'page title' }} </h5>
-                        User Name:<br>
-                        <strong>{{ $user->name }}</strong><br/>
-                        Project Roles:<br/>
-                        {{ count($roles = $user->roles) ? '' : 'none' }}
-                        @foreach($roles as $role)
-                            <code>{{ $role->role }}</code><br>
-                        @endforeach
+                    <div class="row">
+                        <div class="col-6">
+                            <img src="{{ $user->image ? $user->image : '/img/empty.jpg' }}" width="100%" />
+                        </div>
+                        <div class="col-6 alert alert-success text-right">
+                            <h5> {{ isset($title) ? ucfirst($title) : 'page title' }} </h5>
+                            User Name:<br>
+                            <strong>{{ $user->name }}</strong><br/>
+                            Project Roles:<br/>
+                            {{ count($roles = $user->roles) ? '' : 'none' }}
+                            @foreach($roles as $role)
+                                <code>{{ $role->role }}</code><br>
+                            @endforeach
+                            <p class="text-left">Description:</p>
+                            <div class="p-1 text-left text-black-50 border border-success rounded">
+                                {{ $user->description }}
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-outline-primary" style="padding: 0 6px 0 6px;"> Edit </a>

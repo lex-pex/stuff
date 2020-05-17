@@ -4,13 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
+use Illuminate\Http\UploadedFile;
 
 class UserController extends Controller
 {
+    /**
+     * @var string Default path for storing image-files
+     */
+    private $imgFolder = 'img/users';
+
     /**
      * Display a listing of the resource.
      * Browsing page of all users.
@@ -103,7 +111,7 @@ class UserController extends Controller
             'user' => $user,
             'roles' => $roles,
             'uroles' => $uroles
-        ])->withTitle('create User');
+        ])->withTitle('Edit User');
     }
 
     /**
@@ -115,13 +123,26 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $this->rolesAssignmentManaging($request, $user);
-        $this->validate($request, $this->updateValidationRules($request, $user));
-        $data = $request->except('_token', 'password');
+        $validationRules = $this->updateValidationRules($request, $user);
+        $data = $request->except('_token', 'image', 'image_del', 'password');
+        if($request->description) {
+            $validationRules[] = ['description' => 'required|min:10|max:1024'];
+        } else {
+            $data['description'] = '';
+        }
         if($request->password) {
+            $validateRules['password'] = ['required', 'string', 'min:8', 'confirmed'];
             $data['password'] = Hash::make($request['password']);
         }
+        $this->validate($request, $validationRules);
+        $this->rolesAssignmentManaging($request, $user);
         $user->fill($data);
+        if($request->has('image_del')) {
+            $this->imageDelete($user->image);
+            $user->image = '';
+        } elseif ($file = $request->image) {
+            $this->imageSave($file, $user);
+        }
         $user->save();
         return redirect(route('users.show', $user));
     }
@@ -166,11 +187,10 @@ class UserController extends Controller
      */
     private function updateValidationRules(Request $request, User $user) {
         $validateRules = [
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'min:3', 'max:255'],
+            'image' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'status' => ['required', 'integer', 'min:0']
         ];
-        if($request->password) {
-            $validateRules['password'] = ['required', 'string', 'min:8', 'confirmed'];
-        }
         if($request->email !== $user->email) {
             $validateRules['email'] = ['required', 'string', 'email', 'max:255', 'unique:users'];
         }
@@ -193,8 +213,32 @@ class UserController extends Controller
                 'Cannot Delete User with roles, need to delete user\'s (#'. $user->id .', '. $user->name .') roles first !'
             );
         }
+        $this->imageDelete($user->image);
         $user->delete();
         return redirect(route('users.index'))->with(['status' => 'User #' . $user->id . ' deleted successfully']);
+    }
+
+    /**
+     * Save uploaded image, set model's image path
+     * @param UploadedFile $file
+     * @param Model $i
+     */
+    private function imageSave(UploadedFile $file, Model $i) {
+        if($path = $i->image)
+            $this->imageDelete($path);
+        $dateName = date('dmyHis');
+        $name = $dateName . '.' . $file->getClientOriginalExtension();
+        $file->move($this->imgFolder, $name);
+        $i->image = '/'.$this->imgFolder.'/'.$name;
+    }
+
+    /**
+     * Delete file by path
+     * @param string $path
+     */
+    private function imageDelete(string $path) {
+        if($path)
+            File::delete(trim($path, '/'));
     }
 }
 
