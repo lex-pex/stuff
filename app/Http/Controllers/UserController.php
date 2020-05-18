@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageProcessor;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\File;
-use Illuminate\Http\UploadedFile;
 
 class UserController extends Controller
 {
@@ -138,10 +136,10 @@ class UserController extends Controller
         $this->rolesAssignmentManaging($request, $user);
         $user->fill($data);
         if($request->has('image_del')) {
-            $this->imageDelete($user->image);
+            ImageProcessor::imageDelete($user->image);
             $user->image = '';
         } elseif ($file = $request->image) {
-            $this->imageSave($file, $user);
+            ImageProcessor::imageSave($file, $user, $this->imgFolder);
         }
         $user->save();
         return redirect(route('users.show', $user));
@@ -213,32 +211,9 @@ class UserController extends Controller
                 'Cannot Delete User with roles, need to delete user\'s (#'. $user->id .', '. $user->name .') roles first !'
             );
         }
-        $this->imageDelete($user->image);
+        ImageProcessor::imageDelete($user->image);
         $user->delete();
         return redirect(route('users.index'))->with(['status' => 'User #' . $user->id . ' deleted successfully']);
-    }
-
-    /**
-     * Save uploaded image, set model's image path
-     * @param UploadedFile $file
-     * @param Model $i
-     */
-    private function imageSave(UploadedFile $file, Model $i) {
-        if($path = $i->image)
-            $this->imageDelete($path);
-        $dateName = date('dmyHis');
-        $name = $dateName . '.' . $file->getClientOriginalExtension();
-        $file->move($this->imgFolder, $name);
-        $i->image = '/'.$this->imgFolder.'/'.$name;
-    }
-
-    /**
-     * Delete file by path
-     * @param string $path
-     */
-    private function imageDelete(string $path) {
-        if($path)
-            File::delete(trim($path, '/'));
     }
 }
 

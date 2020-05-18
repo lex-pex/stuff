@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageProcessor;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\User;
@@ -72,7 +73,7 @@ class ItemController extends Controller
             $item->user_id = $request->user()->id;
         }
         if ($file = $request->image) {
-            $this->imageSave($file, $item);
+            ImageProcessor::imageSave($file, $item, $this->imgFolder);
         }
         $item->save();
         return redirect(route('item_show', $item->id));
@@ -119,10 +120,10 @@ class ItemController extends Controller
         $data = $request->except('_token', 'image', 'image_del');
         $item->fill($data);
         if($request->has('image_del')) {
-            $this->imageDelete($item->image);
+            ImageProcessor::imageDelete($item->image);
             $item->image = '';
         } elseif ($file = $request->image) {
-            $this->imageSave($file, $item);
+            ImageProcessor::imageSave($file, $item, $this->imgFolder);
         }
         $item->save();
         return redirect()->back()->with(['status' => 'Item updated successfully']);
@@ -139,32 +140,9 @@ class ItemController extends Controller
         if(Gate::denies('delete_item')) {
             return redirect('error_page')->with('message', 'There is no access to delete item');
         }
-        $this->imageDelete($item->image);
+        ImageProcessor::imageDelete($item->image);
         $item->delete();
         return redirect('/');
-    }
-
-    /**
-     * Save uploaded image, set model's image path
-     * @param UploadedFile $file
-     * @param Model $i
-     */
-    private function imageSave(UploadedFile $file, Model $i) {
-        if($path = $i->image)
-            $this->imageDelete($path);
-        $dateName = date('dmyHis');
-        $name = $dateName . '.' . $file->getClientOriginalExtension();
-        $file->move($this->imgFolder, $name);
-        $i->image = '/'.$this->imgFolder.'/'.$name;
-    }
-
-    /**
-     * Delete file by path
-     * @param string $path
-     */
-    private function imageDelete(string $path) {
-        if($path)
-            File::delete(trim($path, '/'));
     }
 }
 

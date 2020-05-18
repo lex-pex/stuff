@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageProcessor;
 use App\Models\Category;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\File;
-use Illuminate\Http\UploadedFile;
 
 class CategoryController extends Controller
 {
@@ -70,7 +68,7 @@ class CategoryController extends Controller
         $category = new Category();
         $category->fill($data);
         if ($file = $request->image) {
-            $this->imageSave($file, $category);
+            ImageProcessor::imageSave($file, $category, $this->imgFolder);
         }
         $category->save();
         return redirect(route('categories.index'));
@@ -118,10 +116,10 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->fill($data);
         if($request->has('image_del')) {
-            $this->imageDelete($category->image);
+            ImageProcessor::imageDelete($category->image);
             $category->image = '';
         } elseif ($file = $request->image) {
-            $this->imageSave($file, $category);
+            ImageProcessor::imageSave($file, $category, $this->imgFolder);
         }
         $category->save();
         return redirect(route('categories.index'))->with(['status' => 'Category #' . $id . ' updated successfully']);
@@ -142,33 +140,11 @@ class CategoryController extends Controller
             return redirect('error_page')->with('message', 'There is no access to categories');
         }
         $category = Category::findOrFail($id);
-        $this->imageDelete($category->image);
+        ImageProcessor::imageDelete($category->image);
         $category->delete();
         return redirect(route('categories.index'))->with(['status' => 'Category #' . $id . ' deleted successfully']);
     }
 
-    /**
-     * Save uploaded image, set model's image path
-     * @param UploadedFile $file
-     * @param Model $i
-     */
-    private function imageSave(UploadedFile $file, Model $i) {
-        if($path = $i->image)
-            $this->imageDelete($path);
-        $dateName = date('dmyHis');
-        $name = $dateName . '.' . $file->getClientOriginalExtension();
-        $file->move($this->imgFolder, $name);
-        $i->image = '/'.$this->imgFolder.'/'.$name;
-    }
-
-    /**
-     * Delete file by path
-     * @param string $path
-     */
-    private function imageDelete(string $path) {
-        if($path)
-            File::delete(trim($path, '/'));
-    }
 }
 
 
