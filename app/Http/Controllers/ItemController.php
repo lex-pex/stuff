@@ -6,12 +6,9 @@ use App\Helpers\ImageProcessor;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\File;
-use Illuminate\Http\UploadedFile;
 
 class ItemController extends Controller
 {

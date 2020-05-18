@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class ImageProcessor - upload image files worker
+ * @package App\Helpers
+ */
 class ImageProcessor
 {
     /**
