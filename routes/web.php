@@ -23,6 +23,8 @@ Route::get('/home', 'HomeController@index')->middleware('moderator')->name('home
 
 Route::resource('items', 'ItemController')->except(['show']);
 
+Route::post('itemsSortFilter', 'ItemController@sortFilter')->name('sortFilter');
+
 Route::get('users/cabinet', 'UserController@cabinet')->name('cabinet');
 
 Route::middleware('admin')->resource('categories', 'CategoryController')->except(['show']);

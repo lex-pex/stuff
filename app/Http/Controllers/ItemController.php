@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Redirect;
 
 class ItemController extends Controller
 {
@@ -17,15 +18,43 @@ class ItemController extends Controller
      */
     private $imgFolder = 'img/items';
 
+    /**
+     * Display a listing of the resource.
+     * Browsing page of all users.
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        if(Gate::denies('delete_item')) {
-            return redirect('error_page')->with(['message' => 'There is no access to edit item']);
+        if(Gate::denies('admin')) {
+            return redirect('error_page')->with(['message' => 'This page is for Admin only']);
         }
-        $items = Item::where('status', '<=', 0)->paginate(6);
+        if(request('hidden')) {
+            $items = Item::where('status', '<=', 0);
+        } else {
+            $items = Item::select('*');
+        }
+        $items = $items->paginate(6);
         return view('items.index', [
             'items' => $items
         ])->withTitle('Hidden Items');
+    }
+
+    /**
+     * Set sort filters for the resource. Where clause sort by:
+     * created_at, updated_at, user_id, status
+     * And "LiFo" order by: ascending, descending
+     * @return Redirect
+     */
+    public function sortFilter() {
+        // Write into session
+        session()->put('sort_criteria', $_POST);
+        // Build the patch for redirect
+        $url = url()->previous();
+        $path = '/';
+        if(preg_match('~/category/~', $url)) {
+            $path = $url;
+        }
+        return redirect($path);
     }
 
     /**

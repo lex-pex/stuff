@@ -15,11 +15,9 @@ class GuestController extends Controller
     public function index()
     {
         /**
-         * Main Category #1 by Default
-         * Doesn't have any own items
+         * Main Category #1 by Default. Doesn't have any own items
          */
         $category = Category::findOrFail(1);
-
         return view('index', [
             'category' => $category,
             'items' => Item::getAllPubliclySorted(),
@@ -43,7 +41,7 @@ class GuestController extends Controller
         }
         $category = Category::findOrFail($id);
         return view('index', [
-            'items' => $category->items()->paginate(6),
+            'items' => Item::getAllPubliclySortedByCategory($id),
             'categories' => Category::getAllPubliclySorted(),
             'category' => $category
         ])->withTitle($category->name);

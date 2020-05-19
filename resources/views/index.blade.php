@@ -64,6 +64,8 @@
                                         </div>
                                     </a>
                                     <div class="card-footer text-right p-0">
+
+                                        <small>{{ 'ID: '.$item->id.', Status: '.$item->status.', User: '.$item->user_id }}</small>
                                         <span class="text-danger">Category:</span>
                                         <a class="btn btn-link" href="{{ route('category_index', $item->category_id) }}">{{ $item->category->name }}</a>
                                     </div>

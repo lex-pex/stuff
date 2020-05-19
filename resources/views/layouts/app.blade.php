@@ -15,13 +15,40 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name', 'Staff') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" id="navbarContent">
                     <ul class="navbar-nav ml-auto">
+                        <form method="post" action="{{ route('sortFilter') }}" class="form-inline d-inline">
+                            @csrf
+                            <?php
+                            if(isset($_SESSION['sort_criteria'])) {
+                                $lifo = $_SESSION['sort_criteria']['order'] === 'descending' ? true : false;
+                                $sort_by = $_SESSION['sort_criteria']['sort_by'];
+                            }
+                            ?>
+                            <li class="nav-item d-inline">
+                                <select name="order" class="custom-select custom-select-sm mt-1">
+                                    <option {{ ($sc = session('sort_criteria')) ? ($sc['order'] == 'asc' ? 'selected' : '') : '' }} value="asc"> Ascend </option>
+                                    <option {{ ($sc = session('sort_criteria')) ? ($sc['order'] == 'desc' ? 'selected' : '') : '' }} value="desc"> Descend </option>
+                                </select>
+                            </li>
+                            <li class="nav-item d-inline">
+                                <select name="sort_by" class="custom-select custom-select-sm mt-1">
+                                    <option {{ ($sc = session('sort_criteria')) ? ($sc['sort_by'] == 'id' ? 'selected' : '') : '' }} value="id"> Item ID </option>
+                                    <option {{ ($sc = session('sort_criteria')) ? ($sc['sort_by'] == 'created_at' ? 'selected' : '') : '' }} value="created_at"> Last Added </option>
+                                    <option {{ ($sc = session('sort_criteria')) ? ($sc['sort_by'] == 'updated_at' ? 'selected' : '') : '' }} value="updated_at"> Updated </option>
+                                    <option {{ ($sc = session('sort_criteria')) ? ($sc['sort_by'] == 'user_id' ? 'selected' : '') : '' }} value="user_id"> User ID </option>
+                                    <option {{ ($sc = session('sort_criteria')) ? ($sc['sort_by'] == 'status' ? 'selected' : '') : '' }} value="status"> Status </option>
+                                </select>
+                            </li>
+                            <li class="nav-item d-inline">
+                                <input type="submit" class="btn btn-sm btn-outline-light mt-1" href="/task/sort" role="button" value="Sort" />
+                            </li>
+                        </form>
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
@@ -42,11 +69,9 @@
                                 @can('edit_item')
                                 <a class="dropdown-item" href="{{ route('home') }}"> Dashboard </a>
                                 @endcan
-                                     route needed
                                 @can('create_item')
                                 <a class="dropdown-item" href="{{ route('items.create') }}"> Add Item </a>
                                 @endcan
-                                     route needed
                                 @can('categories')
                                     <a class="dropdown-item" href="{{ route('home') }}"> Add Category </a>
                                 @endcan
@@ -65,6 +90,7 @@
                 </div>
             </div>
         </nav>
+
         <main class="py-4 m-0">
             @yield('content')
         </main>

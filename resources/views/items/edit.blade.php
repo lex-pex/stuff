@@ -47,6 +47,18 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group row bg-warning">
+                                <label for="status" class="col-md-4 col-form-label text-md-right">Status:</label>
+                                <div class="col-md-6">
+                                    <input id="status" type="text" name="status" value="{{ old('status') ? old('status') : $item->status }}"
+                                           class="form-control @error('status') is-invalid @enderror" autocomplete="title" autofocus>
+                                    @error('status')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                    @enderror
+                                </div>
+                            </div>
                             @endcan
                             <div class="form-group row">
                                 <label for="text" class="col-md-4 col-form-label text-md-right">Category:</label>
@@ -84,18 +96,6 @@
                                         <input class="form-check-input" type="checkbox" name="image_del" id="image_del" {{ old('image_del') ? 'checked' : '' }}>
                                         <label class="form-check-label" for="image_del">Delete Image</label>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="status" class="col-md-4 col-form-label text-md-right">Status:</label>
-                                <div class="col-md-6">
-                                    <input id="status" type="text" name="status" value="{{ old('status') ? old('status') : $item->status }}"
-                                           class="form-control @error('status') is-invalid @enderror" autocomplete="title" autofocus>
-                                    @error('status')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
                                 </div>
                             </div>
                             <div class="form-group row mb-0">
