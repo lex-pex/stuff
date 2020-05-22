@@ -12,7 +12,7 @@ class Category extends Model
      * where 0 is hidden and further numbers give the rating.
      * @var array
      */
-    protected $fillable = ['name', 'image', 'description', 'status'];
+    protected $fillable = ['name', 'image', 'description', 'status', 'alias'];
 
     /**
      * Get the articles for the category.

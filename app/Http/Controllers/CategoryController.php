@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AliasProcessor;
 use App\Helpers\ImageProcessor;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -64,8 +65,23 @@ class CategoryController extends Controller
         } else {
             $data['description'] = '';
         }
+        // Validate Alias if it's given
+        if($request->alias) {
+            $validationRules[] = ['alias' => 'min:3|max:256'];
+        }
+
         $this->validate($request, $validationRules);
         $category = new Category();
+
+        // Alias creating or processing the given one
+        if(!$request->alias) {
+            $name = $request->name;
+            $alias = AliasProcessor::getAlias($name, $category);
+            $category->alias = $alias;
+        } else {
+            $category->alias = AliasProcessor::getAliasUnique($request->alias, $category);
+        }
+
         $category->fill($data);
         if ($file = $request->image) {
             ImageProcessor::imageSave($file, $category, $this->imgFolder);
@@ -77,28 +93,29 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param Category $category
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
         if(Gate::denies('categories')) {
             return redirect('error_page')->with('message', 'There is no access to categories');
         }
-        $category = Category::findOrFail($id);
         return view('categories.edit', [
             'category' => $category
-        ])->withTitle('Update Category #' . $id);
+        ])->withTitle('Update Category #' . $category->id);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param Category $category
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
         $data = $request->except('_token', 'image', 'image_del');
         $validationRules = [
@@ -112,8 +129,6 @@ class CategoryController extends Controller
             $data['description'] = '';
         }
         $this->validate($request, $validationRules);
-
-        $category = Category::findOrFail($id);
         $category->fill($data);
         if($request->has('image_del')) {
             ImageProcessor::imageDelete($category->image);
@@ -122,27 +137,27 @@ class CategoryController extends Controller
             ImageProcessor::imageSave($file, $category, $this->imgFolder);
         }
         $category->save();
-        return redirect(route('categories.index'))->with(['status' => 'Category #' . $id . ' updated successfully']);
+        return redirect(route('categories.index'))->with(['status' => 'Category #' . $category->id . ' updated successfully']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Category $category
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
         /**
          * Except for Default Main Category
          */
-        if($id == 1 || Gate::denies('categories')) {
+        if($category->id == 1 || Gate::denies('categories')) {
             return redirect('error_page')->with('message', 'There is no access to categories');
         }
-        $category = Category::findOrFail($id);
         ImageProcessor::imageDelete($category->image);
         $category->delete();
-        return redirect(route('categories.index'))->with(['status' => 'Category #' . $id . ' deleted successfully']);
+        return redirect(route('categories.index'))->with(['status' => 'Category #' . $category->id . ' deleted successfully']);
     }
 
 }
