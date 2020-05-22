@@ -15,6 +15,8 @@ class AliasProcessor
 {
 
     /**
+     * Creates the Alias from the Name or Title
+     * in the suitable way to be the Url-Route
      * @param string $text
      * @return string
      */
@@ -56,6 +58,7 @@ class AliasProcessor
 
     /**
      * Replace Cyrillic characters with Latin
+     * The 'Snake_Case' is implying (underscore on space)
      * @param $symbol
      * @return mixed
      */
