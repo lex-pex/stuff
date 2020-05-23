@@ -18,6 +18,7 @@ class AliasProcessor
      * Creates the Alias from the Name or Title
      * in the suitable way to be the Url-Route
      * @param string $text
+     * @param Model $model
      * @return string
      */
     public static function getAlias(string $text, Model $model)
@@ -48,7 +49,8 @@ class AliasProcessor
      * @param Model $model
      * @return string
      */
-    public static function getAliasUnique(string $alias, Model $model){
+    public static function getAliasUnique(string $alias, Model $model)
+    {
         $result = $alias;
         while ($model::where('alias', $result)->exists()){
             $result .= 'I';
@@ -62,7 +64,8 @@ class AliasProcessor
      * @param $symbol
      * @return mixed
      */
-    private static function changeSymbol($symbol){
+    private static function changeSymbol($symbol)
+    {
         $map = [' ' => '_','а' => 'a','б' => 'b','в' => 'v','г' =>'g','д' => 'd','е' => 'e','ё' => 'yo','.'=>'','%'=>'pc','='=>'',
             'ж' => 'zh', 'з' => 'z', 'и' => 'i', 'й' => 'j', 'і' => 'i', 'ї' => 'j', 'к' => 'k','л' => 'l',
             'м' => 'm','н' => 'n','о' => 'o', 'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u',
