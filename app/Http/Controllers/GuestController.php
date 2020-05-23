@@ -30,18 +30,19 @@ class GuestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function category($id)
+    public function category($alias)
     {
+        if(!$category = Category::where('alias', $alias)->first()) abort(404);
         /**
          * Main Category #1 by Default
          * Doesn't have any own items
          */
-        if($id == 1) {
+        if($category->id == 1) {
             return redirect('/');
         }
-        $category = Category::findOrFail($id);
+
         return view('index', [
-            'items' => Item::getAllPubliclySortedByCategory($id),
+            'items' => Item::getAllPubliclySortedByCategory($category->id),
             'categories' => Category::getAllPubliclySorted(),
             'category' => $category
         ])->withTitle($category->name);

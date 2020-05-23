@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-2 col-sm-12 py-3 border">
                     @foreach($categories as $c)
-                        <a href="{{ route('category_index', $c->id) }}"
+                        <a href="{{ route('category', $c->alias) }}"
                            class="page-link mb-3 {{ $category->id == $c->id ? 'bg-info text-light' : '' }}">{{ $c->name }}</a>
                     @endforeach
                     @can('admin')
@@ -67,7 +67,7 @@
 
                                         <small>{{ 'ID: '.$item->id.', Status: '.$item->status.', User: '.$item->user_id }}</small>
                                         <span class="text-danger">Category:</span>
-                                        <a class="btn btn-link" href="{{ route('category_index', $item->category_id) }}">{{ $item->category->name }}</a>
+                                        <a class="btn btn-link" href="{{ route('category', $item->category->alias) }}">{{ $item->category->name }}</a>
                                     </div>
                                 </div>
                             </div>
