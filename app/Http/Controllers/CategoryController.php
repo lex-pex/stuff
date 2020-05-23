@@ -54,22 +54,22 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token', 'image');
+        $data = $request->except('_token', 'alias', 'image');
         $validationRules = [
             'name' => 'required|min:3|max:128',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|integer|min:0'
         ];
+        // Validate Description if it's given
         if($request->description) {
-            $validationRules[] = ['description' => 'required|min:10|max:1024'];
+            $validationRules['description'] = 'required|min:10|max:1024';
         } else {
             $data['description'] = '';
         }
         // Validate Alias if it's given
         if($request->alias) {
-            $validationRules[] = ['alias' => 'min:3|max:256'];
+            $validationRules['alias'] = 'min:2|max:256';
         }
-
         $this->validate($request, $validationRules);
         $category = new Category();
 
@@ -86,6 +86,7 @@ class CategoryController extends Controller
         if ($file = $request->image) {
             ImageProcessor::imageSave($file, $category, $this->imgFolder);
         }
+
         $category->save();
         return redirect(route('categories.index'));
     }
@@ -117,16 +118,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $data = $request->except('_token', 'image', 'image_del');
+        $data = $request->except('_token', 'alias', 'image', 'image_del');
         $validationRules = [
             'name' => 'required|min:3|max:128',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|integer|min:0'
         ];
         if($request->description) {
-            $validationRules[] = ['description' => 'required|min:10|max:1024'];
+            $validationRules['description'] = 'required|min:10|max:1024';
         } else {
             $data['description'] = '';
+        }
+        // Validate Alias if it was changed
+        if($request->alias != $category->alias) {
+            $validationRules['alias'] = 'min:2|max:256';
+            $data['alias'] = AliasProcessor::getAliasUnique($request->alias, $category);
         }
         $this->validate($request, $validationRules);
         $category->fill($data);

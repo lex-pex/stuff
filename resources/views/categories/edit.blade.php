@@ -59,11 +59,23 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">Status:</label>
+                                <label for="status" class="col-md-4 col-form-label text-md-right">Status:</label>
                                 <div class="col-md-6">
-                                    <input id="name" type="text" name="status" value="{{ old('status') ? old('status') : $category->status }}"
+                                    <input id="status" type="number" name="status" value="{{ old('status') ? old('status') : $category->status }}"
                                            class="form-control @error('status') is-invalid @enderror" autocomplete="status" autofocus>
                                     @error('status')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="alias" class="col-md-4 col-form-label text-md-right">Alias:</label>
+                                <div class="col-md-6">
+                                    <input id="alias" type="text" name="alias" value="{{ old('alias') ? old('alias') : $category->alias }}"
+                                           class="form-control @error('alias') is-invalid @enderror" autocomplete="alias" autofocus>
+                                    @error('alias')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

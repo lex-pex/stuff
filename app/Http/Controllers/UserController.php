@@ -124,7 +124,7 @@ class UserController extends Controller
         $validationRules = $this->updateValidationRules($request, $user);
         $data = $request->except('_token', 'image', 'image_del', 'password');
         if($request->description) {
-            $validationRules[] = ['description' => 'required|min:10|max:1024'];
+            $validationRules['description'] = ['required', 'min:10', 'max:1024'];
         } else {
             $data['description'] = '';
         }
