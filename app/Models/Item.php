@@ -12,7 +12,7 @@ class Item extends Model
      * where 0 is hidden and further numbers give the rating.
      * @var array
      */
-    protected $fillable = ['title', 'text', 'image', 'category_id', 'user_id', 'status'];
+    protected $fillable = ['title', 'text', 'image', 'category_id', 'user_id', 'status', 'alias'];
 
     /**
      * Get the user that owns the article.
