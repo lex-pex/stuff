@@ -132,7 +132,7 @@ class CategoryController extends Controller
         // Validate Alias if it was changed
         if($request->alias != $category->alias) {
             $validationRules['alias'] = 'min:2|max:256';
-            $data['alias'] = AliasProcessor::getAliasUnique($request->alias, $category);
+            $data['alias'] = AliasProcessor::getAlias($request->alias, $category);
         }
         $this->validate($request, $validationRules);
         $category->fill($data);

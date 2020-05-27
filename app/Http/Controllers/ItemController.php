@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AliasProcessor;
 use App\Helpers\ImageProcessor;
 use App\Models\Item;
 use App\Models\Category;
@@ -86,23 +87,39 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validationRules = [
             'title' => 'required|min:3|max:128',
             'text' => 'required|min:50|max:2048',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|integer|min:0'
-        ]);
+        ];
+        // Validate Alias if it's given
+        if($request->alias) {
+            $validationRules['alias'] = 'min:2|max:256';
+        }
+        $this->validate($request, $validationRules);
+
         $data = $request->except('_token', 'image');
         $item = new Item();
         $item->fill($data);
+        // Alias creating or processing the given one
+        if(!$request->alias) {
+            $name = $request->title;
+            $alias = AliasProcessor::getAlias($name, $item);
+            $item->alias = $alias;
+        } else {
+            $item->alias = AliasProcessor::getAlias($request->alias, $item);
+        }
+        // Set User_Id by Auth if it has no set by Admin
         if ($user_id = $request->user_id) {
             $item->user_id = $request->user()->id;
         }
+        // Set the picture
         if ($file = $request->image) {
             ImageProcessor::imageSave($file, $item, $this->imgFolder);
         }
         $item->save();
-        return redirect(route('item_show', $item->id));
+        return redirect(route('item', $item->alias));
     }
 
     /**
@@ -137,14 +154,21 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        $this->validate($request, [
+        $validationRules =  [
             'title' => 'required|min:3|max:128',
             'text' => 'required|min:50|max:2048',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|integer|min:0'
-        ]);
-        $data = $request->except('_token', 'image', 'image_del');
+        ];
+        // Validate Alias if it was changed
+        if($request->alias != $item->alias) {
+            $validationRules['alias'] = 'min:2|max:256';
+            $item->alias = AliasProcessor::getAlias($request->alias, $item);
+        }
+        $this->validate($request, $validationRules);
+        $data = $request->except('_token', 'alias', 'image', 'image_del');
         $item->fill($data);
+        // Image delete or upload
         if($request->has('image_del')) {
             ImageProcessor::imageDelete($item->image);
             $item->image = '';

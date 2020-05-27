@@ -51,7 +51,7 @@ class Item extends Model
      * @return mixed
      */
     public static function getAllPubliclySorted(int $category_id = 0) {
-        $order = 'asc';
+        $order = 'desc';
         $sort_by = 'id';
         if($sc = session('sort_criteria')) {
             $order = trim($sc['order']);

@@ -40,7 +40,6 @@ class GuestController extends Controller
         if($category->id == 1) {
             return redirect('/');
         }
-
         return view('index', [
             'items' => Item::getAllPubliclySortedByCategory($category->id),
             'categories' => Category::getAllPubliclySorted(),
@@ -51,14 +50,22 @@ class GuestController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $alias
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function item($alias)
     {
-        $item = Item::findOrFail($id);
+        if(!$item = Item::where('alias', $alias)->first()) abort(404);
         return view('items.show', [
             'item' => $item
         ]);
     }
 }
+
+
+
+
+
+
+
+

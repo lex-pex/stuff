@@ -4,9 +4,7 @@ Route::get('/', 'GuestController@index')->name('items_index');
 
 Route::get('/category/{alias}', 'GuestController@category')->name('category');
 
-Route::get('/item/{id}', 'GuestController@show')->name('item_show');
-
-Route::get('/item/{id}/edit', 'GuestController@edit')->name('item_edit');
+Route::get('/item/{alias}', 'GuestController@item')->name('item');
 
 Route::get('/home', 'HomeController@index')->middleware('moderator')->name('home');
 

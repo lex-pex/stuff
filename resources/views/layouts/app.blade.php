@@ -32,8 +32,8 @@
                             ?>
                             <li class="nav-item d-inline">
                                 <select name="order" class="custom-select custom-select-sm mt-1">
-                                    <option {{ ($sc = session('sort_criteria')) ? ($sc['order'] == 'asc' ? 'selected' : '') : '' }} value="asc"> Ascend </option>
                                     <option {{ ($sc = session('sort_criteria')) ? ($sc['order'] == 'desc' ? 'selected' : '') : '' }} value="desc"> Descend </option>
+                                    <option {{ ($sc = session('sort_criteria')) ? ($sc['order'] == 'asc' ? 'selected' : '') : '' }} value="asc"> Ascend </option>
                                 </select>
                             </li>
                             <li class="nav-item d-inline">

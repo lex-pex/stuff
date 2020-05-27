@@ -48,7 +48,7 @@
                         @foreach($items as $item)
                             <div class="col-md-4 p-1">
                                 <div class="card">
-                                    <a class="text-black-50 text-decoration-none" href="{{ route('item_show', $item->id) }}">
+                                    <a class="text-black-50 text-decoration-none" href="{{ route('item', $item->alias) }}">
                                         <div class="card-header">
                                             <h4> {{ $item->title }} </h4>
                                         </div>
