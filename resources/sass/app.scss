@@ -25,3 +25,17 @@ div .category-bg-image {
   z-index:-1;
 }
 
+.add_by_category_button {
+  color:white;
+  text-align: center;
+  font-weight: bold;
+  padding:17px 10px;
+  position: fixed;
+  bottom:25px;
+  right: 25px;
+  width: 100px;
+  height: 100px;
+  border-radius:50%;
+  background: firebrick;
+}
+

@@ -86,4 +86,9 @@
             <hr/>
         </div>
     </div>
+    @can('create_item')
+    @include('details.create_button')
+    @endcan
 @endsection
+
+

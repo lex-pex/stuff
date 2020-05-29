@@ -59,6 +59,14 @@ class ItemController extends Controller
     }
 
     /**
+     * Post method supports Adding by Current Category
+     */
+    public function createByCategory() {
+        $current_category = request('current_category');
+        return route('items.create', ['cat' => $current_category]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      * @return \Illuminate\Http\Response
      */
@@ -68,6 +76,11 @@ class ItemController extends Controller
             return redirect('error_page')->with(['message' => 'There is no access to create item']);
         }
         /**
+         * If Adding by Current Category
+         */
+        if(!$current_category = request('cat'))
+            $current_category = 0;
+        /**
          * All categories except for Default Main Category
          */
         $categories = Category::all()->except(1);
@@ -75,6 +88,7 @@ class ItemController extends Controller
         $user = Auth::user();
         return view('items.create', [
             'categories' => $categories,
+            'current_category' => $current_category,
             'users' => $users,
             'user' => $user
         ])->withTitle('Create Item');

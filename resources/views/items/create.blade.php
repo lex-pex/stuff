@@ -54,7 +54,7 @@
                                             @if($c->id == 1)
                                                 @continue
                                             @endif
-                                            <option value="{{ $c->id }}">{{ $c->name }}</option>
+                                            <option {!! $current_category == $c->id ? 'selected' : '' !!} value="{{ $c->id }}">{{ $c->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

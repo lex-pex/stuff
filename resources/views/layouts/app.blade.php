@@ -98,6 +98,8 @@
     <footer class="container">
         <p>&copy; Company <script>document.write(new Date().getFullYear())</script></p>
     </footer>
-    @include('details.del_popup')
+    @can('delete_item')
+        @include('details.del_popup')
+    @endcan
 </body>
 </html>

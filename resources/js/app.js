@@ -32,7 +32,6 @@ require('./bootstrap');
  * @param item - item name
  */
 window.deleteConfirm = function (id, name, item) {
-
     // Get plural route-name for Resource Controller
     var routeName = '';
     if(item[item.length - 1] === 'y') {
@@ -52,7 +51,15 @@ window.deleteConfirm = function (id, name, item) {
     document.getElementById('item').innerHTML = item;
     // Display the name property of the item
     document.getElementById('item_name').innerHTML = '\" ' + name + ' \"';
+};
 
+window.addItemByCategory = function(current_category) {
+    var token = $("[name=csrf-token]").attr('content');
+    $.post('/item/by/category',
+        { _token: token, current_category: current_category },
+        function(data){
+            window.location = data;
+    });
 };
 
 
