@@ -37136,16 +37136,6 @@ window.deleteConfirm = function (id, name, item) {
   document.getElementById('item_name').innerHTML = '\" ' + name + ' \"';
 };
 
-window.addItemByCategory = function (current_category) {
-  var token = $("[name=csrf-token]").attr('content');
-  $.post('/item/by/category', {
-    _token: token,
-    current_category: current_category
-  }, function (data) {
-    window.location = data;
-  });
-};
-
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

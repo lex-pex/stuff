@@ -11374,6 +11374,7 @@ div .category-bg-image {
 }
 
 .add_by_category_button {
+  box-shadow: 0 0 10px black;
   color: white;
   text-align: center;
   font-weight: bold;
@@ -11384,6 +11385,15 @@ div .category-bg-image {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+  background: indianred;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.add_by_category_button:hover {
   background: firebrick;
+  box-shadow: none;
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
 }
 

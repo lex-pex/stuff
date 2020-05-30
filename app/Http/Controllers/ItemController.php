@@ -59,14 +59,6 @@ class ItemController extends Controller
     }
 
     /**
-     * Post method supports Adding by Current Category
-     */
-    public function createByCategory() {
-        $current_category = request('current_category');
-        return route('items.create', ['cat' => $current_category]);
-    }
-
-    /**
      * Show the form for creating a new resource.
      * @return \Illuminate\Http\Response
      */
