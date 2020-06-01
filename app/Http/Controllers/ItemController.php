@@ -168,8 +168,14 @@ class ItemController extends Controller
         ];
         // Validate Alias if it was changed
         if($request->alias != $item->alias) {
-            $validationRules['alias'] = 'min:2|max:256';
-            $item->alias = AliasProcessor::getAlias($request->alias, $item);
+            // Change Alias automatically by deleting
+            if ($request->alias == null)
+                $alias = $request->title;
+            else {
+                $validationRules['alias'] = 'min:2|max:256';
+                $alias = $request->alias;
+            }
+            $item->alias = AliasProcessor::getAlias($alias, $item);
         }
         $this->validate($request, $validationRules);
         $data = $request->except('_token', 'alias', 'image', 'image_del');
