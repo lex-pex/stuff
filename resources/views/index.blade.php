@@ -49,8 +49,11 @@
                             <div class="col-md-4 p-1">
                                 <div class="card">
                                     <a class="text-black-50 text-decoration-none" href="{{ route('item', $item->alias) }}">
-                                        <div class="card-header">
+                                        <div class="card-header text-center">
                                             <h4> {{ $item->title }} </h4>
+                                            <div class="text-right">
+                                                <small>Created: {{ $item->created_at->format('d.m.y H:i') }}</small>
+                                            </div>
                                         </div>
                                         <div class="card-body p-0">
                                             <div class="row">
