@@ -18,14 +18,21 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-6 text-left">
-                                @can('delete_item')
-                                <a onclick="event.preventDefault();deleteConfirm('{{ $item->id }}', '{{ $item->title }}', 'item')" data-toggle="modal" data-target="#modal-default"
-                                   class="btn btn-sm btn-outline-danger mx-2 text-danger" style="padding: 0 10px 0 10px;">Del</a>
-                                @endcan
-                                @can('edit_item')
-                                <a href="{{ route('items.edit', $item->id) }}"
-                                   class="btn btn-sm btn-outline-primary mx-2" style="padding: 0 7px 0 7px;">Edit</a>
-                                @endcan
+                                <div class="row">
+                                    <div class="col-6 text-left">
+                                        <a href="{{ route('category', $item->category->alias) }}">{{ $item->category->name }}</a>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                    @can('delete_item')
+                                        <a onclick="event.preventDefault();deleteConfirm('{{ $item->id }}', '{{ $item->title }}', 'item')" data-toggle="modal" data-target="#modal-default"
+                                           class="btn btn-sm btn-outline-danger mx-2 text-danger" style="padding: 0 10px 0 10px;">Del</a>
+                                    @endcan
+                                    @can('edit_item')
+                                        <a href="{{ route('items.edit', $item->id) }}"
+                                           class="btn btn-sm btn-outline-primary mx-2" style="padding: 0 7px 0 7px;">Edit</a>
+                                    @endcan
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-6 text-right">
                                 <small>
