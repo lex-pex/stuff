@@ -96,7 +96,7 @@
         </main>
     </div>
     <footer class="container">
-        <p>&copy; Company <script>document.write(new Date().getFullYear())</script></p>
+        <p>&copy; Acme Corporation <script>document.write(new Date().getFullYear())</script></p>
     </footer>
     @can('delete_item')
         @include('details.del_popup')

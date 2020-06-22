@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\AliasProcessor;
 use App\Helpers\ImageProcessor;
+use App\Helpers\Validator;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -55,24 +56,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_token', 'alias', 'image');
-        $validationRules = [
-            'name' => 'required|min:3|max:128',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'status' => 'required|integer|min:0'
-        ];
-        // Validate Description if it's given
-        if($request->description) {
-            $validationRules['description'] = 'required|min:10|max:1024';
-        } else {
-            $data['description'] = '';
-        }
-        // Validate Alias if it's given
-        if($request->alias) {
-            $validationRules['alias'] = 'min:2|max:256';
-        }
-        $this->validate($request, $validationRules);
+        $this->validate($request, Validator::categoryStore($request, $data));
         $category = new Category();
-
         // Alias creating or processing the given one
         if(!$request->alias) {
             $name = $request->name;
@@ -81,7 +66,6 @@ class CategoryController extends Controller
         } else {
             $category->alias = AliasProcessor::getAliasUnique($request->alias, $category);
         }
-
         $category->fill($data);
         if ($file = $request->image) {
             ImageProcessor::imageSave($file, $category, $this->imgFolder);
@@ -119,28 +103,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $data = $request->except('_token', 'alias', 'image', 'image_del');
-        $validationRules = [
-            'name' => 'required|min:3|max:128',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'status' => 'required|integer|min:0'
-        ];
-        if($request->description) {
-            $validationRules['description'] = 'required|min:10|max:1024';
-        } else {
-            $data['description'] = '';
-        }
-        // Validate Alias if it was changed
-        if($request->alias != $category->alias) {
-            // Change Alias automatically by deleting
-            if ($request->alias == null)
-                $alias = $request->name;
-            else {
-                $validationRules['alias'] = 'min:2|max:256';
-                $alias = $request->alias;
-            }
-            $data['alias'] = AliasProcessor::getAlias($alias, $category);
-        }
-        $this->validate($request, $validationRules);
+        $this->validate($request, Validator::categoryUpdate($request, $category, $data));
         $category->fill($data);
         if($request->has('image_del')) {
             ImageProcessor::imageDelete($category->image);
