@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lex
- * Date: 22.05.2020
- * Time: 22:36
- */
 
 namespace App\Helpers;
-
 
 use Illuminate\Database\Eloquent\Model;
 

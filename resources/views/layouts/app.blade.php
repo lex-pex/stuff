@@ -24,12 +24,12 @@
                     <ul class="navbar-nav ml-auto">
                         <form method="post" action="{{ route('sortFilter') }}" class="form-inline d-inline">
                             @csrf
-                            <?php
+                            @php
                             if(isset($_SESSION['sort_criteria'])) {
                                 $lifo = $_SESSION['sort_criteria']['order'] === 'descending' ? true : false;
                                 $sort_by = $_SESSION['sort_criteria']['sort_by'];
                             }
-                            ?>
+                            @endphp
                             <li class="nav-item d-inline">
                                 <select name="order" class="custom-select custom-select-sm mt-1">
                                     <option {{ ($sc = session('sort_criteria')) ? ($sc['order'] == 'desc' ? 'selected' : '') : '' }} value="desc"> Descend </option>
@@ -73,7 +73,7 @@
                                 <a class="dropdown-item" href="{{ route('items.create') }}"> Add Item </a>
                                 @endcan
                                 @can('categories')
-                                    <a class="dropdown-item" href="{{ route('home') }}"> Add Category </a>
+                                    <a class="dropdown-item" href="{{ route('categories.create') }}"> Add Category </a>
                                 @endcan
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
@@ -90,7 +90,6 @@
                 </div>
             </div>
         </nav>
-
         <main class="py-4 m-0">
             @yield('content')
         </main>

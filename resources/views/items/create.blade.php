@@ -35,7 +35,7 @@
                             </div>
                             @can('admin')
                             <div class="form-group row bg-warning">
-                                <label for="text" class="col-md-4 col-form-label text-md-right">Author (Admin Option):</label>
+                                <label for="text" class="col-md-4 col-form-label text-md-right">Admin Option:</label>
                                 <div class="col-md-6">
                                     <select class="form-control custom-select" name="user_id">
                                         @foreach($users as $u)
@@ -80,7 +80,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Status:</label>
                                 <div class="col-md-6">
                                     <input id="name" type="text" name="status" value="{{ old('status') ? old('status') : 1 }}"
-                                           class="form-control @error('status') is-invalid @enderror" autocomplete="status" autofocus>
+                                           class="form-control @error('status') is-invalid @enderror" autocomplete="status">
                                     @error('status')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -92,7 +92,7 @@
                                 <label for="alias" class="col-md-4 col-form-label text-md-right">Alias:</label>
                                 <div class="col-md-6">
                                     <input id="alias" type="text" name="alias" value="{{ old('alias') }}"
-                                           class="form-control @error('alias') is-invalid @enderror" autocomplete="alias" autofocus>
+                                           class="form-control @error('alias') is-invalid @enderror" autocomplete="alias" placeholder="Will be provided based on title">
                                     @error('alias')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

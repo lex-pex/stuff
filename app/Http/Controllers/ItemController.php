@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\AliasProcessor;
 use App\Helpers\ImageProcessor;
+use App\Helpers\Validator;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\User;
@@ -18,6 +19,21 @@ class ItemController extends Controller
      * @var string Default path for storing image-files
      */
     private $imgFolder = 'img/items';
+
+    /**
+     * Set sort filters for this resource. Clause "where" sort by:
+     * created_at, updated_at, user_id, status
+     * And "LiFo" order by: ascending, descending
+     * @return Redirect
+     */
+    public function sortFilter() {
+        session()->put('sort_criteria', $_POST);
+        $url = url()->previous();
+        if(preg_match('~/category/~', $url)) {
+            return redirect($url);
+        }
+        return redirect('/');
+    }
 
     /**
      * Display a listing of the resource.
@@ -38,24 +54,6 @@ class ItemController extends Controller
         return view('items.index', [
             'items' => $items
         ])->withTitle('Hidden Items');
-    }
-
-    /**
-     * Set sort filters for the resource. Where clause sort by:
-     * created_at, updated_at, user_id, status
-     * And "LiFo" order by: ascending, descending
-     * @return Redirect
-     */
-    public function sortFilter() {
-        // Write into session
-        session()->put('sort_criteria', $_POST);
-        // Build the patch for redirect
-        $url = url()->previous();
-        $path = '/';
-        if(preg_match('~/category/~', $url)) {
-            $path = $url;
-        }
-        return redirect($path);
     }
 
     /**
@@ -93,18 +91,7 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $validationRules = [
-            'title' => 'required|min:3|max:128',
-            'text' => 'required|min:50|max:2048',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'status' => 'required|integer|min:0'
-        ];
-        // Validate Alias if it's given
-        if($request->alias) {
-            $validationRules['alias'] = 'min:2|max:256';
-        }
-        $this->validate($request, $validationRules);
-
+        $this->validate($request, Validator::itemStore($request));
         $data = $request->except('_token', 'image');
         $item = new Item();
         $item->fill($data);
@@ -160,24 +147,7 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        $validationRules =  [
-            'title' => 'required|min:3|max:128',
-            'text' => 'required|min:50|max:2048',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'status' => 'required|integer|min:0'
-        ];
-        // Validate Alias if it was changed
-        if($request->alias != $item->alias) {
-            // Change Alias automatically by deleting
-            if ($request->alias == null)
-                $alias = $request->title;
-            else {
-                $validationRules['alias'] = 'min:2|max:256';
-                $alias = $request->alias;
-            }
-            $item->alias = AliasProcessor::getAlias($alias, $item);
-        }
-        $this->validate($request, $validationRules);
+        $this->validate($request, Validator::itemUpdate($request, $item));
         $data = $request->except('_token', 'alias', 'image', 'image_del');
         $item->fill($data);
         // Image delete or upload

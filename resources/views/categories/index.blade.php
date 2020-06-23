@@ -43,7 +43,7 @@
                                 <img src="{{ $category->image ? $category->image : '/img/empty.jpg' }}" width="100%">
                             </th>
                             <td>
-                                <strong>{{ $category->name }}</strong>
+                                <a href="{{ route('category', $category->alias) }}"><strong>{{ $category->name }}</strong></a>
                                 <br />{{ mb_strimwidth($category->description, 0, 120, '....') }}
                             </td>
                             <td>{{ $category->status }}</td>
