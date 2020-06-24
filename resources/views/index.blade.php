@@ -45,6 +45,15 @@
                         <!-- End Main Img Small screen -->
                     </div>
                     <div class="row no-gutters">
+                        <div class="col-12">
+                            <ul class="nav nav-tabs">
+                                @foreach($categories as $c)
+                                    <li class="nav-item">
+                                        <a href="{{ route('category', $c->alias) }}" class="nav-link category-tab {{ $category->id == $c->id ? 'active' : '' }}">{{ $c->name }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                         @foreach($items as $item)
                             <div class="col-md-4 p-1">
                                 <div class="card">

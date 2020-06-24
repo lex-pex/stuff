@@ -96,6 +96,11 @@ class Validator
         return $validationRules;
     }
 
+    /**
+     * Validate the item's fields on its storing
+     * @param $request
+     * @return array - validation rules
+     */
     public static function itemStore($request) {
         $validationRules = [
             'title' => 'required|min:3|max:128',
