@@ -62,25 +62,18 @@ class ItemController extends Controller
      */
     public function create()
     {
-        if(Gate::denies('create_item')) {
+        if(Gate::denies('create_item'))
             return redirect('error_page')->with(['message' => 'There is no access to create item']);
-        }
         /**
          * If Adding by Current Category
          */
-        if(!$current_category = request('cat'))
-            $current_category = 0;
-        /**
-         * All categories except for Default Main Category
-         */
-        $categories = Category::all()->except(1);
-        $users = User::all();
-        $user = Auth::user();
+        if(!$category = request('cat'))
+            $category = 0;
         return view('items.create', [
-            'categories' => $categories,
-            'current_category' => $current_category,
-            'users' => $users,
-            'user' => $user
+            'categories' => Category::all()->except(1), // except for Default Main
+            'current_category' => $category,
+            'users' => User::all(),
+            'user' => Auth::user(),
         ])->withTitle('Create Item');
     }
 
