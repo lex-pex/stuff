@@ -55,6 +55,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        if(Gate::denies('categories')) {
+            return redirect('error_page')->with(['message' => 'There is no access to categories']);
+        }
         $data = $request->except('_token', 'alias', 'image');
         $this->validate($request, Validator::categoryStore($request, $data));
         $category = new Category();
@@ -102,6 +105,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        if(Gate::denies('categories')) {
+            return redirect('error_page')->with('message', 'There is no access to categories');
+        }
         $data = $request->except('_token', 'alias', 'image', 'image_del');
         $this->validate($request, Validator::categoryUpdate($request, $category, $data));
         $category->fill($data);

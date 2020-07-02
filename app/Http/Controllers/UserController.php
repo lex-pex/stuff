@@ -75,6 +75,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        if(Gate::denies('users', 0)) {
+            return redirect('error_page')->with('message', 'There is no access to users');
+        }
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -121,6 +124,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        if(Gate::denies('users', 0)) {
+            return redirect('error_page')->with('message', 'There is no access to users');
+        }
         $validationRules = $this->updateValidationRules($request, $user);
         $data = $request->except('_token', 'image', 'image_del', 'password');
         if($request->description) {

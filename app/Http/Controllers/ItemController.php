@@ -91,6 +91,9 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+        if(Gate::denies('create_item')) {
+            return redirect('error_page')->with(['message' => 'There is no access to create item']);
+        }
         $this->validate($request, Validator::itemStore($request));
         $data = $request->except('_token', 'image');
         $item = new Item();
@@ -147,6 +150,9 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
+        if(Gate::denies('edit_item')) {
+            return redirect('error_page')->with('message', 'There is no access to update item');
+        }
         $this->validate($request, Validator::itemUpdate($request, $item));
         $data = $request->except('_token', 'alias', 'image', 'image_del');
         $item->fill($data);
