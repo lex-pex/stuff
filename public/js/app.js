@@ -37104,35 +37104,15 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  */
 
 /**
- * Get and Substitute parameter of the Delete Form
- * Set name, name property and delete path (routeName) of the item
- * @param id - item id
- * @param name - name property of the item
- * @param item - item name
+ * Substitute action parameter of the Delete Form
+ * @param id
+ * @param route
  */
 
 
-window.deleteConfirm = function (id, name, item) {
-  // Get plural route-name for Resource Controller
-  var routeName = '';
-
-  if (item[item.length - 1] === 'y') {
-    item[item.length - 1] = 'i';
-    routeName = item.substr(0, item.length - 1);
-    routeName += 'ies';
-  } else {
-    routeName = item + 's';
-  } // Capitalize the item name
-
-
-  item = item.charAt(0).toUpperCase() + item.slice(1); // Set the form action route
-
-  document.getElementById('del_form').setAttribute('action', '/' + routeName + '/' + id); // Set Title of the modal
-
-  document.getElementById('del_modal_title').innerHTML = 'Delete ' + item; // Display the name of the item
-
-  document.getElementById('item').innerHTML = item; // Display the name property of the item
-
+window.deleteConfirm = function (id, route) {
+  document.getElementById('del_form').setAttribute('action', '/' + route + '/' + id);
+  name = document.getElementById('item_name_' + id).innerHTML;
   document.getElementById('item_name').innerHTML = '\" ' + name + ' \"';
 };
 

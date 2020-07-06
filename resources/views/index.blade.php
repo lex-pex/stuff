@@ -6,16 +6,15 @@
                 <div class="col-md-2 col-sm-12 py-3 border">
                     @foreach($categories as $c)
                         <a href="{{ route('category', $c->alias) }}"
-                           class="page-link mb-3 {{ $category->id == $c->id ? 'bg-info text-light' : '' }}">{{ $c->name }}</a>
+                           class="page-link mb-3 {{ $category->id == $c->id ? 'bg-info text-light' : '' }}" id="{{ 'item_name_' . $c->id }}">{{ $c->name }}</a>
                     @endforeach
                     @can('admin')
                         <hr/>
-                        <p> <span class="text-info">Category:</span>
-                            <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-outline-primary" style="padding: 0 6px 0 6px;"> Edit </a>
-                            <a onclick="event.preventDefault();deleteConfirm('{{ $category->id }}', '{{ $category->name }}', 'category')"
-                               data-toggle="modal" data-target="#modal-default"
-                               class="btn btn-sm btn-outline-danger text-danger"
-                               style="padding: 0 8px 0 7px; {{ $category->id == 1 ? 'display:none' : '' }}"> Del </a>
+                        <p><span class="text-info">Category:</span>
+                            <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-outline-primary" style="padding:0 6px 0 6px;">Edit</a>
+                            <a onclick="event.preventDefault();deleteConfirm('{{ $category->id }}', 'categories')"
+                               data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-outline-danger text-danger"
+                               style="padding:0 8px 0 7px;{{ $category->id == 1 ? 'display:none' : '' }}">Del</a>
                         </p>
                     @endcan
                 </div>

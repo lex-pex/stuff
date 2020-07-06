@@ -18,10 +18,8 @@
                         </div>
                         <div class="col-6 alert alert-success text-right">
                             <h5> {{ isset($title) ? ucfirst($title) : 'page title' }} </h5>
-                            User Name:<br>
-                            <strong>{{ $user->name }}</strong><br/>
-                            Project Roles:<br/>
-                            {{ count($roles = $user->roles) ? '' : 'none' }}
+                            User Name:<br><strong id="{{ 'item_name_' . $user->id }}">{{ $user->name }}</strong><br/>
+                            Project Roles:<br/>{{ count($roles = $user->roles) ? '' : 'none' }}
                             @foreach($roles as $role)
                                 <code>{{ $role->role }}</code><br>
                             @endforeach
@@ -31,12 +29,10 @@
                             </div>
                         </div>
                     </div>
-
                     <div>
-                        <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-outline-primary" style="padding: 0 6px 0 6px;"> Edit </a>
-                        <a onclick="event.preventDefault();deleteConfirm('{{ $user->id }}', '{{ $user->name }}', 'user')"
-                           data-toggle="modal" data-target="#modal-default"
-                           class="btn btn-sm btn-outline-danger text-danger" style="padding: 0 8px 0 7px"> Del </a>
+                        <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-outline-primary" style="padding:0 6px 0 6px">Edit</a>
+                        <a onclick="event.preventDefault();deleteConfirm('{{ $user->id }}', 'users')"
+                           data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-outline-danger text-danger" style="padding:0 8px 0 7px">Del</a>
                     </div>
                     <hr/>
                 </div>

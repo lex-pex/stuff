@@ -58,7 +58,7 @@ class GuestController extends Controller
         if(!$item = Item::where('alias', $alias)->first()) abort(404);
         return view('items.show', [
             'item' => $item
-        ]);
+        ])->withTitle($item->title);
     }
 }
 

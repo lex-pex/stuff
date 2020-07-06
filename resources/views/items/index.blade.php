@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            @include('details.admin_bar')
+        </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ ucfirst($title) }}</div>
@@ -11,7 +14,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <!-- Greeting the with User's Name and Role -->
                     <div class="alert alert-success text-right">
                         <span class="mark">{{ Auth::user()->name }}</span>
                     </div>
@@ -37,26 +39,23 @@
                         <tbody class="text-black-50">
                         @foreach($items as $item)
                         <tr>
-                            <th scope="row">{{ $item->id }}</th>
-                            <th scope="row">
-                                <img src="{{ $item->image ? $item->image : '/img/empty.jpg' }}" width="100%">
-                            </th>
+                            <td scope="row"><small>{{ $item->id }}</small></td>
+                            <td scope="row"><img src="{{ $item->image ? $item->image : '/img/empty.jpg' }}" width="100%"></td>
                             <td>
-                                <strong>{{ $item->title }}</strong>
+                                <strong><a href="{{ route('item', $item->alias) }}" id="{{ 'item_name_' . $item->id }}">{{ $item->title }}</a></strong>
                                 <br />{{ mb_strimwidth($item->text, 0, 120, '....') }}
                             </td>
                             <td>
-                                <a href="{{ route('items.edit', $item) }}" class="btn btn-sm btn-outline-primary" style="padding: 0 6px 0 6px;"> Edit </a>
+                                <a href="{{ route('items.edit', $item) }}" class="btn btn-sm btn-outline-primary" style="padding:0 6px 0 6px"> Edit </a>
                                 <br>
-                                <a onclick="event.preventDefault();deleteConfirm('{{ $item->id }}', '{{ $item->name }}', '$item')"
+                                <a onclick="event.preventDefault();deleteConfirm('{{ $item->id }}', 'items')"
                                    data-toggle="modal" data-target="#modal-default"
-                                   class="btn btn-sm btn-outline-danger text-danger" style="padding: 0 8px 0 7px"> Del </a>
+                                   class="btn btn-sm btn-outline-danger text-danger" style="padding:0 8px 0 7px">Del</a>
                             </td>
                             <th scope="row" width="20%">
                                 <small>
-                                    {{ $item->created_at ? date_format($item->created_at, 'd/m/y H:i') : 'Date unknown' }}
-                                    <br/>
-                                    {{ $item->updated_at ? date_format($item->updated_at, 'd/m/y H:i') : 'Have no updated' }}
+                                    {{ $item->created_at ? date_format($item->created_at, 'd.m.y H:i') : 'Date unknown' }}<br/>
+                                    {{ $item->updated_at ? date_format($item->updated_at, 'd.m.y H:i') : 'Have no updated' }}
                                 </small>
                             </th>
                         </tr>
@@ -74,10 +73,8 @@
     </div>
 </div>
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            {{ $items->links() }}
-        </div>
+    <div class="row justify-content-center p-3">
+        {{ $items->links() }}
     </div>
 </div>
 @endsection

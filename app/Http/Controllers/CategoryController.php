@@ -130,17 +130,15 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        /**
-         * Except for Default Main Category
-         */
-        if($category->id == 1 || Gate::denies('categories')) {
+        // Except for Default Main Category
+        if($category->id == 1 || Gate::denies('categories'))
             return redirect('error_page')->with('message', 'There is no access to categories');
-        }
+        if($amount = $category->items()->count())
+            return redirect('error_page')->with('message', 'This category has '. $amount .' Items, need to del, or move them first');
         ImageProcessor::imageDelete($category->image);
         $category->delete();
         return redirect(route('categories.index'))->with(['status' => 'Category #' . $category->id . ' deleted successfully']);
     }
-
 }
 
 

@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 col-sm-12">
+            @include('details.admin_bar')
+        </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ $title }}</div>
@@ -43,17 +46,17 @@
                                 <img src="{{ $category->image ? $category->image : '/img/empty.jpg' }}" width="100%">
                             </th>
                             <td>
-                                <a href="{{ route('category', $category->alias) }}"><strong>{{ $category->name }}</strong></a>
+                                <a href="{{ route('category', $category->alias) }}"><strong id="{{ 'item_name_' . $category->id }}">{{ $category->name }}</strong></a>
                                 <br />{{ mb_strimwidth($category->description, 0, 120, '....') }}
                             </td>
                             <td>{{ $category->status }}</td>
                             <td>
-                                <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-outline-primary" style="padding: 0 6px 0 6px;"> Edit </a>
+                                <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-outline-primary" style="padding:0 6px 0 6px">Edit</a>
                                 <br>
-                                <a onclick="event.preventDefault();deleteConfirm('{{ $category->id }}', '{{ $category->name }}', 'category')"
+                                <a onclick="event.preventDefault();deleteConfirm('{{ $category->id }}', 'categories')"
                                    data-toggle="modal" data-target="#modal-default"
                                    class="btn btn-sm btn-outline-danger text-danger"
-                                   style="padding: 0 8px 0 7px;{{ $category->id == 1 ? 'display:none' : '' }}"> Del </a>
+                                   style="padding:0 8px 0 7px;{{ $category->id == 1 ? 'display:none' : '' }}">Del</a>
                             </td>
                             <th scope="row" width="20%">
                                 <small>

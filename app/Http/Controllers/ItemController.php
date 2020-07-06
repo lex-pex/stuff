@@ -46,9 +46,9 @@ class ItemController extends Controller
             return redirect('error_page')->with(['message' => 'This page is for Admin only']);
         }
         if(request('hidden')) {
-            $items = Item::where('status', '<=', 0);
+            $items = Item::where('status', '<=', 0)->orderBy('id', 'desc');
         } else {
-            $items = Item::select('*');
+            $items = Item::select('*')->orderBy('id', 'desc');
         }
         $items = $items->paginate(6);
         return view('items.index', [
@@ -169,11 +169,11 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         if(Gate::denies('delete_item')) {
-            return redirect('error_page')->with('message', 'There is no access to delete item');
+            return redirect('error_page', 500)->with('message', 'There is no access to delete item');
         }
         ImageProcessor::imageDelete($item->image);
         $item->delete();
-        return redirect('/');
+        return redirect(route('items.index'))->withStatus('Item ' . $item->id . ' has deleted');
     }
 }
 

@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center p-0">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 col-sm-12">
+            @include('details.admin_bar')
+        </div>
         <div class="col-md-8 col-sm-12">
             <div class="card">
                 <div class="card-header">{{ ucfirst($title) }}</div>
@@ -42,17 +45,15 @@
                                         <img src="{{ $user->image ? $user->image : '/img/empty.jpg' }}" width="100%">
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-8">
-                                        <a class="btn btn-link" href="{{ route('users.show', $user->id) }}"><strong>{{ $user->name }}</strong></a>
+                                        <a class="btn btn-link" href="{{ route('users.show', $user->id) }}"><strong id="{{ 'item_name_' . $user->id }}">{{ $user->name }}</strong></a>
                                     </div>
                                 </div>
                             </td>
                             <td class="text-center">
                                 {{ $user->id }} <br />
-                                <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-outline-primary" style="padding: 0 6px 0 6px;"> Edit </a>
-                                <br>
-                                <a onclick="event.preventDefault();deleteConfirm('{{ $user->id }}', '{{ $user->name }}', 'user')"
-                                   data-toggle="modal" data-target="#modal-default"
-                                   class="btn btn-sm btn-outline-danger text-danger" style="padding: 0 8px 0 7px"> Del </a>
+                                <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-outline-primary" style="padding:0 6px 0 6px">Edit</a><br>
+                                <a onclick="event.preventDefault();deleteConfirm('{{ $user->id }}', 'users')"
+                                   data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-outline-danger text-danger" style="padding:0 8px 0 7px">Del</a>
                             </td>
                             <td>
                                 @if(count($user->roles()->get()))
