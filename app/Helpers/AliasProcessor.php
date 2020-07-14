@@ -17,16 +17,14 @@ class AliasProcessor
     public static function getAlias(string $text, Model $model)
     {
         $symbols = trim(preg_replace('/[\n\r]{2,}/', "\n", $text));
-
         $wordsArray = explode(' ', $symbols);
         $wordsArray = array_slice($wordsArray, 0, 5);
         $symbols = implode(' ', $wordsArray);
-
         $symbols = mb_strtolower($symbols);
         $str = $symbols;
         $len = mb_strlen($str);
-        $chars = array();
-        for ($k = 0; $k < $len; $k++){
+        $chars = [];
+        for ($k = 0; $k < $len; $k++) {
             $chars[] = mb_substr($str, $k, 1);
         }
         $result = '';
@@ -44,11 +42,9 @@ class AliasProcessor
      */
     public static function getAliasUnique(string $alias, Model $model)
     {
-        $result = $alias;
-        while ($model::where('alias', $result)->exists()){
-            $result .= 'I';
-        }
-        return $result;
+        while ($model::where('alias', $alias)->exists())
+            $alias .= 'I';
+        return $alias;
     }
 
     /**
